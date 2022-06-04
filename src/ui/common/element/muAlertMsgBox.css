@@ -1,0 +1,15 @@
+.muAlertMsgBoxModalerror .modal-content {
+  background: linear-gradient(rgba(255, 128, 128, 1), rgba(255, 255, 255, 1));
+}
+
+.muAlertMsgBoxModalerror .modal-header, .muAlertMsgBoxModalerror .modal-footer {
+  border: none;
+}
+
+.muAlertMsgBoxModalwarning .modal-content {
+  background: linear-gradient(rgba(255, 192, 128, 1), rgba(255, 255, 255, 1));
+}
+
+.muAlertMsgBoxModalwarning .modal-header, .muAlertMsgBoxModalwarning .modal-footer {
+  border: none;
+}

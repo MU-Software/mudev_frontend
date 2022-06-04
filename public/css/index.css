@@ -1,0 +1,170 @@
+:root {
+  --sidebar-icon-box-width: 36px;
+  --sidebar-icon-box-height: 24px;
+  --background: rgba(0, 0, 0, .5);
+  --color: rgba(0, 0, 0, 1);
+  --color-10: rgba(0, 0, 0, .10);
+  --color-25: rgba(0, 0, 0, .25);
+  --color-50: rgba(0, 0, 0, .5);
+  --color-75: rgba(0, 0, 0, .75);
+  --color-90: rgba(0, 0, 0, .9);
+  --color-inv: rgba(255, 255, 255, 1);
+  --color-inv-10: rgba(255, 255, 255, .10);
+  --color-inv-25: rgba(255, 255, 255, .25);
+  --color-inv-50: rgba(255, 255, 255, .5);
+  --color-inv-75: rgba(255, 255, 255, .75);
+  --color-inv-90: rgba(255, 255, 255, .9);
+
+  --border-color: rgba(255, 255, 255, .5);
+  --border: 2px solid var(--border-color);
+  --mu-img-background: rgba(0, 0, 0, .15);
+  --mu-img-background-hover: rgba(0, 0, 0, .5);
+  --mu-text-img-shadow: drop-shadow(0 0 0.75rem rgba(0, 0, 0, .5));
+  --mu-text-logo: invert(1);
+
+  --sidebar-background-hovered: rgba(0, 0, 0, .25);
+  --sidebar-background-selected: rgba(0, 0, 0, .5);
+}
+
+:root[color-theme='light'] {
+  --background: rgba(0, 0, 0, .05);
+  --color: rgba(0, 0, 0, 1);
+  --color-10: rgba(0, 0, 0, .10);
+  --color-25: rgba(0, 0, 0, .25);
+  --color-50: rgba(0, 0, 0, .5);
+  --color-75: rgba(0, 0, 0, .75);
+  --color-90: rgba(0, 0, 0, .9);
+  --color-inv: rgba(255, 255, 255, 1);
+  --color-inv-10: rgba(255, 255, 255, .10);
+  --color-inv-25: rgba(255, 255, 255, .25);
+  --color-inv-50: rgba(255, 255, 255, .5);
+  --color-inv-75: rgba(255, 255, 255, .75);
+  --color-inv-90: rgba(255, 255, 255, .9);
+
+  --border-color: rgba(0, 0, 0, .25);
+  --mu-img-background: rgba(0, 0, 0, .15);
+  --mu-img-background-hover: rgba(0, 0, 0, .5);
+  --mu-text-img-shadow: drop-shadow(0 0 0.75rem rgba(0, 0, 0, .5));
+  --mu-text-logo: invert(1);
+
+  --sidebar-background-hovered: rgb(58, 115, 170, .25);
+  --sidebar-background-selected: rgb(58, 115, 170, .75);
+}
+
+:root[color-theme='dark'] {
+  --background: linear-gradient(5deg, #036564, #033649);
+  --color: rgba(255, 255, 255, 1);
+  --color-10: rgba(255, 255, 255, .10);
+  --color-25: rgba(255, 255, 255, .25);
+  --color-50: rgba(255, 255, 255, .5);
+  --color-75: rgba(255, 255, 255, .75);
+  --color-90: rgba(255, 255, 255, .9);
+  --color-inv: rgba(0, 0, 0, 1);
+  --color-inv-10: rgba(0, 0, 0, .10);
+  --color-inv-25: rgba(0, 0, 0, .25);
+  --color-inv-50: rgba(0, 0, 0, .5);
+  --color-inv-75: rgba(0, 0, 0, .75);
+  --color-inv-90: rgba(0, 0, 0, .9);
+
+  --border-color: rgba(255, 255, 255, .2);
+  --mu-img-background: none;
+  --mu-img-background-hover: none;
+  --mu-text-img-shadow: none;
+  --mu-text-logo: none;
+
+  --sidebar-background-hovered: rgba(0, 0, 0, .25);
+  --sidebar-background-selected: rgba(0, 0, 0, .5);
+}
+
+@font-face {
+  font-family: 'neodgm';
+  font-style: normal;
+  font-weight: normal;
+  src: url('../fonts/neodgm_pro.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'leferi-point-black';
+  font-style: normal;
+  font-weight: 900;
+  src: url('../fonts/LeferiPointBlack.woff2') format('woff2');
+}
+
+::-moz-selection { /* Code for Firefox */
+  color: white;
+  background: purple;
+}
+
+::selection {
+  color: white;
+  background-color: purple;
+}
+
+body,
+html,
+main {
+  font-family:
+    Pretendard, Open Sans, arial, Apple SD Gothic Neo, Noto Sans CJK KR,
+    본고딕, KoPubDotum, 나눔바른고딕, 나눔고딕, NanumGothic,
+    맑은고딕, Malgun Gothic, sans-serif !important;
+
+  overscroll-behavior: none;
+
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Old versions of Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
+     supported by Chrome, Edge, Opera and Firefox */
+
+  min-height: -webkit-fill-available;
+  min-height: 100vh;
+  max-height: -webkit-fill-available;
+  max-height: 100vh;
+  height: 100vh;
+}
+
+body {
+  position: fixed;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: 0 0;
+  -webkit-overflow-scrolling: touch;
+  background: var(--background) !important;
+  color: var(--color);
+}
+
+main {
+  position: fixed;
+  /* height: calc(100vh - 56px);
+  min-height: calc(100vh - 56px);
+  max-height: calc(100vh - 56px);
+  top: 56px; */
+  height: 100vh;
+  min-height: 100vh;
+  max-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+footer,
+header,
+main {
+  /* Resetting mvp.css */
+  padding: unset;
+}
+
+ol li,
+ul li {
+  /* Resetting mvp.css */
+  padding: unset;
+}

@@ -1,0 +1,28 @@
+.homeFooterSection {
+  scroll-snap-align: end;
+  padding: 2rem 1rem;
+
+  font-size: 12pt;
+  color: var(--color);
+  text-align: center;
+
+  border-top: var(--border);
+}
+
+.homeFooterSectionIcon {
+  width: 16pt;
+  color: var(--color);
+  margin-bottom: 4px;
+}
+
+.taglineContainer {
+  line-height: 1;
+}
+
+.tagline {
+  font-size: 8pt !important;
+  font-style: italic !important;
+  font-weight: normal !important;
+  color: var(--color) !important;
+  text-decoration: none !important;
+}

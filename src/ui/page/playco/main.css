@@ -1,0 +1,101 @@
+.playCoMain {
+}
+
+.playCoMain > header {
+  margin-bottom: calc(56px - 2rem);
+}
+
+.playCoTitleHeaderSup {
+  top: unset !important;
+  font-size: xx-small !important;
+}
+
+.playCoListMain {
+  height: -moz-fit-content;
+  height: fit-content;
+}
+
+.playCoListAside {
+  min-width: calc(var(--width-card) * 1.25);
+  width: 50%;
+  max-width: 540px;
+}
+
+.playCoIdToEnterTextField {
+  margin: .25rem;
+  width: 100%;
+  /* width: calc(100% - 0.5rem); */
+  font-size: 10pt;
+}
+
+.playCoPlaylistListManualEnterToBtn {
+  width: 100% !important;
+  height: 100% !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.playCoPlaylistListTitleContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.playCoPlaylistListTitle {
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+  overflow-y: hidden;
+  position: relative;
+}
+
+.playCoPlaylistListRefreshTooltip {
+  width: max-content;
+}
+
+.playCoPlaylistListRefreshButton {
+  position: absolute;
+  right: 0;
+}
+
+.playCoPlaylistListRefreshButtonIconContainer {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.playCoAsideSectionHeaderButtonContainer {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.playCoListItem {
+  border-radius: 0.3rem;
+}
+
+.playCoListItem:hover {
+  background-color: rgba(0, 0, 0, .2);
+}
+
+.playCoListItemTextContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 0.5rem;
+}
+
+.playCoListTitleContainer {
+  width: 100%;
+  text-align: start;
+  margin-top: .75rem;
+}
+
+.playCoListAdditionalInfoContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: .75rem;
+}

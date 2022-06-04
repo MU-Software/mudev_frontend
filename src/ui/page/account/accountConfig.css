@@ -1,0 +1,136 @@
+.accountConfigAside {
+  max-width: var(--width-card-wide);
+  min-width: var(--width-card) * 2.5;
+  width: 75%;
+  padding: 0;
+}
+
+.accountConfigProfileInfoContainer {
+  display: flex;
+  width: 100%;
+  padding: 1.25rem;
+
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.accountConfigProfileImgContainer {
+  position: relative;
+  margin: 1rem;
+
+  flex-grow: 0;
+  flex-shrink: 0;
+
+  -webkit-mask-image: url(./circle.svg);
+  mask-image: url(./circle.svg);
+
+  color: var(--color-75);
+  border: 2px solid var(--color-50);
+  border-radius: 50%;
+}
+
+.accountConfigProfileImg {
+  width: 10rem;
+  aspect-ratio: 1/1;
+
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, .25);
+}
+
+.accountConfigProfileImgChangeTextContainer {
+  position: absolute;
+  bottom: -2px;
+  width: 100%;
+  height: 2.5rem;
+  padding: 0.25rem 0;
+
+  color: rgba(255, 255, 255, 1); /* Intended */
+  background-color: rgba(0, 0, 0, .75);
+  font-size: 12pt;
+  font-weight: bold;
+}
+
+.accountConfigNickEmailContainer {
+  display: block;
+  min-width: 7.5rem;
+  max-width: 30rem;
+  padding: 0;
+  margin: 0 1rem;
+
+  flex-grow: 1;
+}
+
+.accountConfigNickEmailContainer * {
+  width: 100%;
+  margin: 0;
+  text-align: start;
+  font-weight: 600;
+}
+
+.accountConfigNick {
+  /* margin-bottom: 0.25rem; */
+}
+
+.accountConfigUuid {
+  display: inline;
+
+  color: var(--color-75);
+  font-size: 12pt;
+}
+
+.accountConfigId {
+  /* margin-bottom: 0.25rem; */
+
+  color: var(--color-75);
+  font-size: small;
+  font-weight: normal;
+}
+
+.accountConfigGoToBtnContainer {
+  display: flex;
+  width: 100%;
+  overflow-x: hidden;
+
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-evenly;
+}
+
+.accountConfigGoToBtn {
+  min-width: 10rem;
+  width: 100%;
+  padding: 1rem 0;
+  margin: 0;
+
+  flex-grow: 1;
+  flex-shrink: 1;
+
+  border-radius: 0;
+  border-top: 1px solid var(--color);
+
+  color: var(--color);
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.accountConfigGoToBtnContainer :nth-child(2) {
+  border-right: 1px solid var(--color);
+  border-left: 1px solid var(--color);
+}
+
+.accountConfigGoToBtn:hover {
+  background-color: rgba(0, 0, 0, .25);
+}
+
+@media only screen and (max-width: 750px) {
+  .accountConfigGoToBtnContainer {
+    flex-wrap: wrap;
+  }
+
+  .accountConfigGoToBtnContainer :nth-child(2) {
+    border-right: 0;
+    border-left: 0;
+  }
+}

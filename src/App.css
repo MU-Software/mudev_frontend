@@ -1,0 +1,79 @@
+img {
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+
+.App {
+  text-align: center;
+  height: 100%;
+  overflow-wrap: break-word;
+  word-break: keep-all;
+}
+
+.mainContent {
+  position: fixed;
+  height: 100%;
+  width: calc(100% - 4rem + 18px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  left: 4rem;
+  z-index: -100;
+}
+
+.mainContent > * {
+  height: 100%;
+  width: calc(100% - 4rem - 18px);
+  margin-right: calc(4rem + 18px);
+
+  /* border-top: 1px rgba(255, 255, 255, 0.2) solid; */
+  border-bottom: none;
+  flex-wrap: nowrap;
+}
+
+@media only screen and (max-width: 480px) {
+  .mainContent {
+    width: 100%;
+    left: 0;
+  }
+
+  .mainContent > * {
+    width: 100%;
+    margin-right: 0;
+  }
+}
+
+section {
+  height: 100%;
+  width: 100%;
+  padding-top: 56px;
+
+  box-sizing:border-box;
+  scroll-snap-align: center;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  color: var(--color);
+  border-top: var(--border);
+}
+
+section aside {
+  border: 1px solid var(--color);
+  box-shadow: 0px 0px 4px var(--color-25);
+  background-color: rgba(0, 0, 0, 0.333);
+  transition: 0.3s;
+}
+
+section aside:hover {
+  box-shadow: 0px 0px 10px var(--color-75);
+}
+
+section aside h4 {
+  margin-bottom: 1rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'leferi-point-black';
+}
