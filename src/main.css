@@ -1,0 +1,29 @@
+.mainPage {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  height: 100%;
+  overflow-x: hidden;
+
+  /* hide scrollbar */
+  width: calc(100% + var(--scrollbar-width));
+  padding-right: var(--scrollbar-width);
+  overflow-y: scroll;
+
+  z-index: var(--main-page-z-index);
+}
+
+.screenWidthTooNarrow {
+  display: none;
+}
+
+@media only screen and (max-width: 250px) {
+  .mainPage {
+    display: none;
+  }
+
+  .screenWidthTooNarrow {
+    display: flex;
+  }
+}

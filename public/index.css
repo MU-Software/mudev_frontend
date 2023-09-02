@@ -1,0 +1,255 @@
+:root {
+  --background-color: rgba(0, 0, 0, .05);
+  --background: var(--background-color);
+
+  --color: rgba(0, 0, 0, 1);
+  --color-05: rgba(0, 0, 0, .05);
+  --color-10: rgba(0, 0, 0, .10);
+  --color-25: rgba(0, 0, 0, .25);
+  --color-33: rgba(0, 0, 0, .33);
+  --color-50: rgba(0, 0, 0, .5);
+  --color-75: rgba(0, 0, 0, .75);
+  --color-90: rgba(0, 0, 0, .9);
+  --color-inv: rgba(255, 255, 255, 1);
+  --color-inv-05: rgba(255, 255, 255, .05);
+  --color-inv-10: rgba(255, 255, 255, .10);
+  --color-inv-25: rgba(255, 255, 255, .25);
+  --color-inv-33: rgba(255, 255, 255, .33);
+  --color-inv-50: rgba(255, 255, 255, .5);
+  --color-inv-75: rgba(255, 255, 255, .75);
+  --color-inv-90: rgba(255, 255, 255, .9);
+  --border-color: rgba(0, 0, 0, .25);
+
+  --mu-img-background: none;
+  --mu-img-background-hover: none;
+  --mu-text-img-shadow: none;
+  --mu-text-logo: none;
+
+  --topbar-height: 56px;
+  --topbar-background-hovered: var(--color-25);
+  --topbar-logo-background: var(--color-25);
+  --topbar-logo-background-hovered: var(--color-50);
+  --topbar-padding: 8px 0;
+  --topbar-logo-height: 40px;
+
+  --sidebar-width: 4rem;
+  --sidebar-pill-height: 56px;
+  --sidebar-puller-height: 4rem;
+  --sidebar-puller-width: 1.25rem;
+  --sidebar-background-hovered: var(--color-10);
+  --sidebar-background-selected: var(--color-33);
+
+  --topbar-z-index: 10000;
+  --sidebar-z-index: 10000;
+  --main-page-z-index: -100;
+
+  --scrollbar-width: 18px;
+
+  --transition-delay: .3s;
+
+  /* Resetting mvp.css */
+  --hover-brightness: 1.2;
+}
+
+:root[color-theme='light'] {
+  --mu-img-background: rgba(0, 0, 0, .15);
+  --mu-img-background-hover: rgba(0, 0, 0, .5);
+  --mu-text-img-shadow: drop-shadow(0 0 0.75rem rgba(0, 0, 0, .5));
+  --mu-text-logo: invert(1);
+
+  --hover-brightness: unset !important;
+}
+
+:root[color-theme='dark'] {  /* also known as dusk */
+  --background-color: #033649;
+  --background: #033649;
+  --background: -webkit-linear-gradient(5deg, #036564, #033649);
+  --background: linear-gradient(5deg, #036564, #033649);
+
+  --color: rgba(255, 255, 255, 1);
+  --color-05: rgba(255, 255, 255, .05);
+  --color-10: rgba(255, 255, 255, .10);
+  --color-25: rgba(255, 255, 255, .25);
+  --color-33: rgba(255, 255, 255, .33);
+  --color-50: rgba(255, 255, 255, .5);
+  --color-75: rgba(255, 255, 255, .75);
+  --color-90: rgba(255, 255, 255, .9);
+  --color-inv: rgba(0, 0, 0, 1);
+  --color-inv-05: rgba(0, 0, 0, .05);
+  --color-inv-10: rgba(0, 0, 0, .10);
+  --color-inv-25: rgba(0, 0, 0, .25);
+  --color-inv-33: rgba(0, 0, 0, .33);
+  --color-inv-50: rgba(0, 0, 0, .5);
+  --color-inv-75: rgba(0, 0, 0, .75);
+  --color-inv-90: rgba(0, 0, 0, .9);
+  --border-color: rgba(255, 255, 255, .2);
+
+  --topbar-background-hovered: var(--color-inv-25);
+  --topbar-logo-background: unset;
+  --topbar-logo-background-hovered: unset;
+  --sidebar-background-hovered: var(--color-inv-25);
+  --sidebar-background-selected: var(--color-inv-50);
+}
+
+:root[color-theme='deep-dark'] {
+  --background-color: #0a0a0a;
+
+  --color: rgba(255, 255, 255, 1);
+  --color-05: rgba(255, 255, 255, .05);
+  --color-10: rgba(255, 255, 255, .10);
+  --color-25: rgba(255, 255, 255, .25);
+  --color-33: rgba(255, 255, 255, .33);
+  --color-50: rgba(255, 255, 255, .5);
+  --color-75: rgba(255, 255, 255, .75);
+  --color-90: rgba(255, 255, 255, .9);
+  --color-inv: rgba(0, 0, 0, 1);
+  --color-inv-05: rgba(0, 0, 0, .05);
+  --color-inv-10: rgba(0, 0, 0, .10);
+  --color-inv-25: rgba(0, 0, 0, .25);
+  --color-inv-33: rgba(0, 0, 0, .33);
+  --color-inv-50: rgba(0, 0, 0, .5);
+  --color-inv-75: rgba(0, 0, 0, .75);
+  --color-inv-90: rgba(0, 0, 0, .9);
+  --border-color: rgba(255, 255, 255, .2);
+
+  --topbar-logo-background: unset;
+  --topbar-logo-background-hovered: unset;
+}
+
+@font-face {
+  font-family: 'neodgm';
+  font-style: normal;
+  font-weight: normal;
+  src: url('/src/asset/font/neodgm_pro.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'leferi-point-black';
+  font-style: normal;
+  font-weight: 900;
+  src: url('/src/asset/font/LeferiPointBlack.woff2') format('woff2');
+}
+
+::-moz-selection {
+  /* Code for Firefox */
+  color: white;
+  background: purple;
+}
+
+::selection {
+  color: white;
+  background-color: purple;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body,
+html,
+main {
+  font-family:
+    Pretendard, Open Sans, arial, Apple SD Gothic Neo, Noto Sans CJK KR,
+    본고딕, KoPubDotum, 나눔바른고딕, 나눔고딕, NanumGothic,
+    맑은고딕, Malgun Gothic, sans-serif !important;
+
+  overscroll-behavior: none;
+
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Old versions of Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
+     supported by Chrome, Edge, Opera and Firefox */
+
+  min-height: -webkit-fill-available;
+  min-height: 100vh;
+  max-height: -webkit-fill-available;
+  max-height: 100vh;
+  height: 100vh;
+
+  max-width: 100vw;
+  overflow-x: hidden;
+
+  background-color: var(--background-color) !important;
+  background: var(--background) !important;
+}
+
+body {
+  position: fixed;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: 0 0;
+  -webkit-overflow-scrolling: touch;
+  background-color: var(--background-color) !important;
+  background: var(--background) !important;
+  color: var(--color);
+}
+
+main {
+  position: fixed;
+  height: 100vh;
+  min-height: 100vh;
+  max-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+noscript, .fullScreenAlert {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  color: var(--color);
+  font-size: 1.5rem;
+  font-weight: lighter;
+  text-align: center;
+
+  z-index: 100000;
+}
+
+footer,
+header,
+main {
+  /* Resetting mvp.css */
+  padding: unset;
+}
+
+ol li,
+ul li {
+  /* Resetting mvp.css */
+  padding: unset;
+}
+
+nav {
+  /* Resetting mvp.css */
+  margin-bottom: 0 !important;
+}
+
+.tooltip {
+  /*
+  Resetting react-bootstrap
+  I don't know why, I don't want to know why, I shouldn't
+  have to wonder why, but for whatever reason this stupid
+  tooltip isn't laying out correctly unless we do this terribleness.
+  */
+  position: fixed !important;
+}

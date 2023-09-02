@@ -1,6 +1,7 @@
 {
-    "name": "MUsoftware Blog",
-    "short_name": "MUsoftware",
+    "name": "MUdev.cc",
+    "short_name": "MUdev",
+    "description": "MUsoftware Personal Blog",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",
@@ -15,6 +16,7 @@
             "purpose": "maskable any"
         }
     ],
+    "id": "/",
     "start_url": "/",
     "scope": "/",
     "theme_color": "#000000",

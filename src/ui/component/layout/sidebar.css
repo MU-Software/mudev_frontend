@@ -1,0 +1,74 @@
+.sidebarContainer {
+  position: fixed;
+  height: calc(100vh - var(--topbar-height));
+  top: var(--topbar-height);
+  left: 0;
+  width: var(--sidebar-width);
+  border-radius: 0 .25rem .25rem 0 !important;
+
+  transition: 0.1s !important;
+}
+
+.sidebarContainerPuller {
+  position: absolute;
+  width: var(--sidebar-puller-width);
+  height: var(--sidebar-puller-height);
+  padding: 0.1rem;
+
+  right: calc(var(--sidebar-puller-width) * -1);
+  top: calc((100% - var(--sidebar-puller-height)) / 2);
+
+  font-size: 0.75em;
+
+  background-color: var(--color-50);
+  border-top: 1px solid var(--color-25);
+  border-bottom: 1px solid var(--color-25);
+  border-right: 1px solid var(--color-25);
+  border-radius: 0 .25rem .25rem 0 !important;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.sidebarIconPills {
+  /* I hate those !important things */
+  height: var(--sidebar-pill-height) !important;
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+  border-radius: 0 .25rem .25rem 0 !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  transition: var(--transition-delay) !important;
+}
+
+.sidebarIconPills:hover:not(.active) {
+  background-color: var(--sidebar-background-hovered) !important;
+}
+
+.sidebarIconPills>svg {
+  color: var(--color-50) !important;
+}
+
+.nav-item>.active {
+  background-color: var(--sidebar-background-selected) !important;
+}
+
+.nav-item>.active>svg {
+  color: var(--color-90) !important;
+}
+
+
+@media only screen and (max-width: 480px) {
+  .sidebarContainer {
+    left: calc(var(--sidebar-width) * -1);
+    border-right: 2px var(--color-50) dashed;
+    background-color: var(--color-25);
+  }
+
+  .sidebarContainerPuller {
+    display: flex;
+  }
+}
