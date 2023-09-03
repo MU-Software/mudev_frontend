@@ -4,7 +4,7 @@ import { mdiAccountCircle } from '@mdi/js';
 import Icon from '@mdi/react';
 import React, { useState } from 'react';
 import { Form, NavDropdown, Navbar } from 'react-bootstrap';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import TopBarLogo from '@asset/image/mu_logo.png'; // TODO: FIXME: Use SVG instead of PNG
 import { darkThemeTypeCollection, getCurrentTheme, isDeepDarkEnabled, toggleDeepDark, toggleTheme } from '@ui/util/dark_mode';
@@ -32,7 +32,7 @@ const AccountInfo: () => React.ReactNode = () => {
 };
 
 const AccountSettingButton: () => React.ReactNode = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // return (accountInfo.isFetching || !accountInfo.isSignedIn) ? <></> : <>
   //   <NavDropdown.Divider className='navBarDropdownItem' />
@@ -47,9 +47,9 @@ const AccountSettingButton: () => React.ReactNode = () => {
 };
 
 const AccountSignInOutButton: () => React.ReactNode = () => {
-  const navigate = useNavigate();
-  const goToSignIn = () => navigate('/account/signin');
-  const goToSignOut = () => navigate('/account/signout');
+  // const navigate = useNavigate();
+  // const goToSignIn = () => navigate('/account/signin');
+  // const goToSignOut = () => navigate('/account/signout');
 
   // return <NavDropdown.Item
   //   className='navBarDropdownItem'

@@ -3,23 +3,41 @@ import * as NType from '@network/model';
 import * as objUtil from '@util/object_util';
 import * as strUtil from '@util/string_util';
 
-const getAPIErrorDebugMessage = (
-  apiResult: NType.APIResult<unknown>
-) => `${apiResult.route} | ${apiResult.method} | apiResult.sub_code === ${apiResult.sub_code}`;
-const createSimpleAPIErrorObj = (
-  apiResult: NType.APIResult<unknown>,
-  message: string,
-  accessTokenInvalidation?: boolean,
+const getAPIErrorDbgMsg = (
+  apiResult: NType.APIResultType
+) => `[${apiResult.method}] ${apiResult.route} | apiResult.sub_code === ${apiResult.sub_code}`;
+
+const getAPIErrObj = (
+  msg: string,
+  dbgMsg?: string,
+  apiResult?: NType.APIResultType,
+  accessTokenInvalidation = false,
   fields?: Record<string, string>,
 ) => new NType.APIError(
-  message,
-  getAPIErrorDebugMessage(apiResult),
-  apiResult.code,
+  msg,
+  dbgMsg ?? (apiResult ? getAPIErrorDbgMsg(apiResult) : 'apiResult 객체가 undefined 또는 null입니다.'),
+  apiResult?.code ?? -1,
   accessTokenInvalidation,
-  undefined,
+  apiResult,
   fields,
-  apiResult.route,
-);
+)
+
+// const createAPIErrorObj = (
+//   apiResult: NType.APIResultType,
+//   message: string,
+//   accessTokenInvalidation?: boolean,
+//   fields?: Record<string, string>,
+// ) => new NType.APIError(
+//   message,
+//   getAPIErrorDbgMsg(apiResult),
+//   apiResult.code,
+//   accessTokenInvalidation,
+//   undefined,
+//   fields,
+//   apiResult.route,
+// );
+
+// const apiErrorWithTokenInvalidation = (apiRes: NType.APIResultType, msg: string, fields?: Record<string, string>) => createAPIErrorObj(apiRes, msg, true, fields);
 
 class API {
   // Refresh Token will be saved on cookie storage, and all of these attributes must be private.
@@ -93,19 +111,8 @@ class API {
   };
 
   #checkResponse: NType.APIResponseHandlerType = async (method, route, accessTokenRequired, additionalHeaders, data, isRetry, response) => {
-    const getDebugErrorMessage = () => `${route} | ${method} | response.status === ${response?.status ?? -1}`;
-    const createAPIErrorObj = (message: string, debugMessage?: string, accessTokenInvalidation?: boolean) => new NType.APIError(
-      message,
-      debugMessage ?? getDebugErrorMessage(),
-      response?.status ?? -1,
-      accessTokenInvalidation ?? false,
-      undefined,
-      undefined,
-      route,
-    );
-
     if (!response) { // How is this possible???
-      throw createAPIErrorObj(APIErrorMessage.RESPONSE_IS_NULL, 'fetchResult 객체가 undefined 또는 null입니다.');
+      throw getAPIErrObj(APIErrorMessage.RESPONSE_IS_NULL, 'fetchResult 객체가 undefined 또는 null입니다.');
     } else if (200 <= response.status && response.status <= 399) {  // SUCCESS // this returns response.json()
       if (response.status === 204) { // resource.deleted
         // As 204 response means that resource is deleted and response does not include a response body,
@@ -122,7 +129,7 @@ class API {
         };
       }
 
-      return {response: response, header: response.headers, body: await response.json() as Record<string, unknown>};
+      return { response: response, header: response.headers, body: await response.json() as Record<string, unknown> };
     } else if (400 <= response.status && response.status <= 499) {
       if (response.status === 401) {  // this "possibly" returns response.json()
         /*
@@ -145,35 +152,35 @@ class API {
           then we need to parse subCode, so we'll handle this error on second stage.
         */
         if (!route.startsWith('account/')) {
-          if (isRetry) throw createAPIErrorObj(APIErrorMessage.TOKEN_INVALID, '인증 실패 & route !== account/refresh\n', true);
+          if (isRetry) throw getAPIErrObj(APIErrorMessage.TOKEN_INVALID, '인증 실패 & route !== account/refresh\n', undefined, true);
 
           const api = await this.refreshAuthentications(true);
           const fetchResult = await api.#fetch(method, route, accessTokenRequired, additionalHeaders, data, true);
           return api.#checkResponse(method, route, accessTokenRequired, additionalHeaders, data, true, fetchResult);
         }
-        return {response: response, header: response.headers, body: await response.json() as Record<string, unknown>};
+        return { response: response, header: response.headers, body: await response.json() as Record<string, unknown> };
       } else if (API.RETURNABLE_ERROR.includes(response.status)) { // this "possibly" returns response.json(), See RETURNABLE_ERROR for more details.
-        return {response: response, header: response.headers, body: await response.json() as Record<string, unknown>};
+        return { response: response, header: response.headers, body: await response.json() as Record<string, unknown> };
       } else if (response.status === 403) { // Requested action was forbidden
-        throw createAPIErrorObj(APIErrorMessage.PERMISSION_DENIED);
+        throw getAPIErrObj(APIErrorMessage.PERMISSION_DENIED);
       } else if (response.status === 404) { // Resource not found
         // 404 can be meant to be both resource not found and http not found,
         // and we need to handle those separately.
         const responseBody = await response.json() as Record<string, unknown>;
         if (responseBody['sub_code'] && responseBody['sub_code'] !== 'resource.not_found')
-          throw createAPIErrorObj(APIErrorMessage.API_NOT_FOUND);
-        return {response: response, header: response.headers, body: responseBody};
+          throw getAPIErrObj(APIErrorMessage.API_NOT_FOUND);
+        return { response: response, header: response.headers, body: responseBody };
       } else if (response.status === 405) { // Method not permitted
-        throw createAPIErrorObj(APIErrorMessage.WRONG_REQUEST);
+        throw getAPIErrObj(APIErrorMessage.WRONG_REQUEST);
       } else if (response.status === 415) { // requested response content-type not supported
-        throw createAPIErrorObj(APIErrorMessage.WRONG_REQUEST);
+        throw getAPIErrObj(APIErrorMessage.WRONG_REQUEST);
       } else if (response.status === 429) {
-        throw createAPIErrorObj(APIErrorMessage.REQUEST_TOO_FREQUENT, `429 rate limit`);
+        throw getAPIErrObj(APIErrorMessage.REQUEST_TOO_FREQUENT, `429 rate limit`);
       } else { // unknown client-fault error
-        throw createAPIErrorObj(APIErrorMessage.DEFAULT_API_ERROR);
+        throw getAPIErrObj(APIErrorMessage.DEFAULT_API_ERROR);
       }
     } else {  // HTTP status code is more than 500(server error)
-      throw createAPIErrorObj(APIErrorMessage.DEFAULT_SERVER_ERROR);
+      throw getAPIErrObj(APIErrorMessage.DEFAULT_SERVER_ERROR);
     }
   };
 
@@ -190,8 +197,8 @@ class API {
       )
       throw new NType.APIError(APIErrorMessage.DEFAULT_API_ERROR, debugMsg, -1, false, undefined, undefined, route);
     });
-    const fetchCheckResult: NType.APIResponseType = await this.#checkResponse(method, route, accessTokenRequired, additionalHeaders, data, isRetry, fetchResult);
-    return new NType.APIResult(route, method, fetchCheckResult);
+    const fetchCheckResult = await this.#checkResponse(method, route, accessTokenRequired, additionalHeaders, data, isRetry, fetchResult);
+    return NType.toAPIResult(route, method, true, fetchCheckResult);
   }
 
   isSignedIn = async (checkNetwork?: boolean) => {
@@ -207,10 +214,9 @@ class API {
   refreshAuthentications = async (useNetwork = false) => {
     if (!useNetwork && this.#accessToken && this.#accessTokenExpiresAt > new Date()) return Promise.resolve(this);
 
-    const apiResult = await this.post<NType.AuthenticationResponseDataType>('account/refresh').catch((reason: NType.APIError) => {
-      this.#clearAuthenticationInfo();
-      throw reason;
-    });
+    const apiResult = await this.post<NType.TokenRefreshRespDataType>('account/refresh').catch(
+      (reason: NType.APIError) => { this.#clearAuthenticationInfo(); throw reason; }
+    );
     if (apiResult.success && apiResult.data) {
       this.#accessToken = apiResult.data.user.access_token.token;
       this.#accessTokenExpiresAt = new Date(apiResult.data.user.access_token.exp);
@@ -225,28 +231,28 @@ class API {
     );
   }
 
-  head<T>(route: string, accessTokenRequired = false, additionalHeaders = {}) {
+  head<T extends NType.APIResultGenericTypes>(route: string, accessTokenRequired = false, additionalHeaders = {}) {
     return this.#apiRequest<T>(NType.HttpMethodType.HEAD, route, accessTokenRequired, additionalHeaders);
   }
-  get<T>(route: string, accessTokenRequired = false, additionalHeaders = {}) {
+  get<T extends NType.APIResultGenericTypes = NType.APIResultGenericTypes>(route: string, accessTokenRequired = false, additionalHeaders = {}) {
     return this.#apiRequest<T>(NType.HttpMethodType.GET, route, accessTokenRequired, additionalHeaders);
   }
-  post<T>(route: string, data: Record<string, unknown> = {}, accessTokenRequired = false, additionalHeaders = {}) {
+  post<T extends NType.APIResultGenericTypes = NType.APIResultGenericTypes>(route: string, data: Record<string, unknown> = {}, accessTokenRequired = false, additionalHeaders = {}) {
     return this.#apiRequest<T>(NType.HttpMethodType.POST, route, accessTokenRequired, additionalHeaders, data, false);
   }
-  put<T>(route: string, data: Record<string, unknown> = {}, accessTokenRequired = false, additionalHeaders = {}) {
+  put<T extends NType.APIResultGenericTypes = NType.APIResultGenericTypes>(route: string, data: Record<string, unknown> = {}, accessTokenRequired = false, additionalHeaders = {}) {
     return this.#apiRequest<T>(NType.HttpMethodType.PUT, route, accessTokenRequired, additionalHeaders, data, false);
   }
-  patch<T>(roue: string, data: Record<string, unknown> = {}, accessTokenRequired = false, additionalHeaders = {}) {
+  patch<T extends NType.APIResultGenericTypes = NType.APIResultGenericTypes>(roue: string, data: Record<string, unknown> = {}, accessTokenRequired = false, additionalHeaders = {}) {
     return this.#apiRequest<T>(NType.HttpMethodType.PATCH, roue, accessTokenRequired, additionalHeaders, data, false);
   }
-  delete<T>(route: string, accessTokenRequired = false, additionalHeaders = {}) {
+  delete<T extends NType.APIResultGenericTypes>(route: string, accessTokenRequired = false, additionalHeaders = {}) {
     return this.#apiRequest<T>(NType.HttpMethodType.DELETE, route, accessTokenRequired, additionalHeaders, undefined, false);
   }
 
   signIn = async (id: string, pw: string) => {
     try {
-      const apiResult = await this.post<NType.AuthenticationResponseDataType>('account/signin', { id, pw });
+      const apiResult = await this.post<NType.SignInRespDataType>('account/signin', { id, pw });
       if (apiResult.success) {
         this.#accessToken = apiResult.data.user.access_token.token;
         this.#accessTokenExpiresAt = new Date(apiResult.data.user.access_token.exp);
@@ -254,22 +260,22 @@ class API {
       }
       this.#clearAuthenticationInfo();
 
-      const getAPIErrorObj = (message: string, fields?: Record<string, string>) => createSimpleAPIErrorObj(apiResult, message, true, fields);
       switch (apiResult.sub_code) {
-        case 'user.not_found':
-          throw getAPIErrorObj(AccountErrorMessage.NOT_FOUND);
         case 'user.wrong_password': {
-          const message = strUtil._f(AccountErrorMessage.WRONG_PASSWORD_WITH_WARNING, apiResult.data.left_chance)
-          throw getAPIErrorObj(message, {pw: message});
+          const leftChanceStr: string = (apiResult.data.context?.left_chance ?? 0).toString();
+          const message = strUtil._f(AccountErrorMessage.WRONG_PASSWORD_WITH_WARNING, leftChanceStr);
+          throw getAPIErrObj(message, undefined, apiResult, true, { pw: message });
         }
+        case 'user.not_found':
+          throw getAPIErrObj(AccountErrorMessage.NOT_FOUND, undefined, apiResult, true);
         case 'user.locked':
-          throw getAPIErrorObj(strUtil._f(AccountErrorMessage.LOCKED, apiResult.data.reason));
+          throw getAPIErrObj(strUtil._f(AccountErrorMessage.LOCKED, apiResult.message), undefined, apiResult, true);
         case 'user.deactivated':
-          throw getAPIErrorObj(strUtil._f(AccountErrorMessage.DEACTIVATED, apiResult.data.reason));
+          throw getAPIErrObj(strUtil._f(AccountErrorMessage.DEACTIVATED, apiResult.message), undefined, apiResult, true);
         case 'user.email_not_verified':
-          throw getAPIErrorObj(AccountErrorMessage.EMAIL_NOT_VERIFIED);
+          throw getAPIErrObj(AccountErrorMessage.EMAIL_NOT_VERIFIED, undefined, apiResult, true);
         default:
-          throw getAPIErrorObj(APIErrorMessage.DEFAULT_API_ERROR);
+          throw getAPIErrObj(APIErrorMessage.DEFAULT_API_ERROR, undefined, apiResult, true);
       }
     } catch (e) {
       this.#clearAuthenticationInfo();
@@ -278,7 +284,7 @@ class API {
   };
 
   signUp = async (id: string, email: string, pw: string, nick: string) => {
-    const apiResult = await this.post<NType.AuthenticationResponseDataType>('account/signup', { id, pw, nick, email });
+    const apiResult = await this.post<NType.SignUpRespDataType>('account/signup', { id, pw, nick, email });
     if (apiResult.success) {
       if (apiResult.sub_code === 'user.sign_up_but_need_email_verification') {
         // Server responsed with success,
@@ -293,35 +299,35 @@ class API {
     }
     this.#clearAuthenticationInfo();
 
-    const getAPIErrorObj = (message: string, fields?: Record<string, string>) => createSimpleAPIErrorObj(apiResult, message, true, fields);
     switch (apiResult.sub_code) {
-      case 'user.already_used': {
-        const duplicatedItem: string = apiResult.data.duplicate[0];
-        const message = strUtil._f(AccountErrorMessage.FIELD_VALUE_ALREADY_USED, strUtil.getAlreadyUsedFieldName(duplicatedItem));
-        throw getAPIErrorObj(message, duplicatedItem);
-      }
-      case 'request.body.bad_semantics': {
-        const badSemanticsReason: Record<string, unknown> = apiResult.data.bad_semantics[0];
-        if (Object.prototype.hasOwnProperty.call(badSemanticsReason, 'email')) {
-          const message = AccountErrorMessage.EMAIL_NOT_VALID;
-          throw getAPIErrorObj(message, {email: message});
-        } else if (Object.prototype.hasOwnProperty.call(badSemanticsReason, 'pw')) {
-          const reason = strUtil.getPasswordFailureReason(badSemanticsReason.pw);
-          const message = strUtil._f(AccountErrorMessage.PASSWORD_NOT_VALID, reason);
-          throw getAPIErrorObj(message, {pw: message});
-        } else if (Object.prototype.hasOwnProperty.call(badSemanticsReason, 'id')) {
-          const reason = strUtil.getIDFailureReason(badSemanticsReason.id);
-          const message = strUtil._f(AccountErrorMessage.ID_NOT_VALID, reason);
-          throw getAPIErrorObj(message, {id: message});
-        } else { throw getAPIErrorObj(AccountErrorMessage.FIELD_NOT_VALID); }
-      }
-      default: throw getAPIErrorObj(APIErrorMessage.DEFAULT_API_ERROR);
+      // case 'user.already_used': {
+      //   const duplicatedItem: string = apiResult.data.duplicate[0];
+      //   const message = strUtil._f(AccountErrorMessage.FIELD_VALUE_ALREADY_USED, strUtil.getAlreadyUsedFieldName(duplicatedItem));
+      //   throw apiErrorWithTokenInvalidation(apiResult, message, duplicatedItem);
+      // }
+      // case 'request.body.bad_semantics': {
+      //   const badSemanticsReason: Record<string, unknown> = apiResult.data.bad_semantics[0];
+      //   if (Object.prototype.hasOwnProperty.call(badSemanticsReason, 'email')) {
+      //     const message = AccountErrorMessage.EMAIL_NOT_VALID;
+      //     throw apiErrorWithTokenInvalidation(apiResult, message, { email: message });
+      //   } else if (Object.prototype.hasOwnProperty.call(badSemanticsReason, 'pw')) {
+      //     const reason = strUtil.getPasswordFailureReason(badSemanticsReason.pw);
+      //     const message = strUtil._f(AccountErrorMessage.PASSWORD_NOT_VALID, reason);
+      //     throw apiErrorWithTokenInvalidation(apiResult, message, { pw: message });
+      //   } else if (Object.prototype.hasOwnProperty.call(badSemanticsReason, 'id')) {
+      //     const reason = strUtil.getIDFailureReason(badSemanticsReason.id);
+      //     const message = strUtil._f(AccountErrorMessage.ID_NOT_VALID, reason);
+      //     throw apiErrorWithTokenInvalidation(apiResult, message, { id: message });
+      //   } else { throw apiErrorWithTokenInvalidation(apiResult, AccountErrorMessage.FIELD_NOT_VALID); }
+      // }
+      default:
+        throw getAPIErrObj(APIErrorMessage.DEFAULT_API_ERROR, undefined, apiResult, true);
     }
   };
 
   signOut: () => Promise<API> = async () => {
     await this.post('account/signout', { signout: 'OK' });
-    // Actually, this action won't fail, except when the server is dead.
+    // Actually, this action won't (and shouldn't) fail, except when the server is dead.
     // Just reset the csrf token and access token.
     this.#clearAuthenticationInfo();
     return this;
@@ -335,89 +341,87 @@ class API {
       return this;
     }
 
-    const getAPIErrorObj = (message: string, fields?: Record<string, string>) => createSimpleAPIErrorObj(apiResult, message, true, fields);
     switch (apiResult.sub_code) {
-      case 'user.not_found':
-        throw getAPIErrorObj(AccountErrorMessage.NOT_FOUND);
-      case 'user.info_mismatch':
-        throw getAPIErrorObj(AccountErrorMessage.INFO_MISMATCH);
       case 'user.wrong_password': {
         const message = AccountErrorMessage.WRONG_PASSWORD;
-        throw getAPIErrorObj(message, {pw: message});
+        throw getAPIErrObj(message, undefined, apiResult, true, { pw: message });
       }
+      case 'user.not_found':
+        throw getAPIErrObj(AccountErrorMessage.NOT_FOUND, undefined, apiResult, true);
+      case 'user.info_mismatch':
+        throw getAPIErrObj(AccountErrorMessage.INFO_MISMATCH, undefined, apiResult, false);
       case 'user.locked':
-        throw getAPIErrorObj(strUtil._f(AccountErrorMessage.DEACTIVATE_FAIL_AS_ACCOUNT_LOCKED, apiResult.data.reason));
+        throw getAPIErrObj(strUtil._f(AccountErrorMessage.LOCKED, apiResult.message), undefined, apiResult, true);
       case 'user.deactivated':
-        throw getAPIErrorObj(strUtil._f(AccountErrorMessage.DEACTIVATE_FAIL_AS_ALREADY_DEACTIVATED, apiResult.data.reason));
+        throw getAPIErrObj(strUtil._f(AccountErrorMessage.DEACTIVATED, apiResult.message), undefined, apiResult, true);
       default:
-        throw getAPIErrorObj(APIErrorMessage.DEFAULT_API_ERROR);
+        throw getAPIErrObj(APIErrorMessage.DEFAULT_API_ERROR, undefined, apiResult, true);
     }
   };
 
   changePassword = async (original_password: string, new_password: string, new_password_check: string) => {
-    const apiResult = await this.post('account/change-password', {original_password, new_password, new_password_check});
+    const apiResult = await this.post('account/change-password', { original_password, new_password, new_password_check });
     if (apiResult.success) return this;
 
-    const getAPIErrorObj = (message: string, fields?: Record<string, string>) => createSimpleAPIErrorObj(apiResult, message, true, fields);
     switch (apiResult.sub_code) {
-      case 'user.not_found':
-        throw getAPIErrorObj(AccountErrorMessage.NOT_FOUND);
       case 'user.wrong_password': {
         const message = AccountErrorMessage.WRONG_CURRENT_PASSWORD
-        throw getAPIErrorObj(message, {original_password: message});}
-      case 'password.change_failed': {
-        const reasonType: string = apiResult.data.reason.toLowerCase();
-        const reason = strUtil.getPasswordFailureReason(reasonType);
-        const message = strUtil._f(AccountErrorMessage.PASSWORD_NOT_VALID, reason);
-        const field = reasonType === 'retype_mismatch' ? 'new_password_check' : 'new_password';
-        throw getAPIErrorObj(message, {[field]: message});
+        throw getAPIErrObj(message, undefined, apiResult, true, { original_password: message });
       }
+      // case 'password.change_failed': {
+      //   const reasonType: string = apiResult.data.reason.toLowerCase();
+      //   const reason = strUtil.getPasswordFailureReason(reasonType);
+      //   const message = strUtil._f(AccountErrorMessage.PASSWORD_NOT_VALID, reason);
+      //   const field = reasonType === 'retype_mismatch' ? 'new_password_check' : 'new_password';
+      //   throw apiErrorWithTokenInvalidation(apiResult, message, { [field]: message });
+      // }
+      case 'user.not_found':
+        throw getAPIErrObj(AccountErrorMessage.NOT_FOUND, undefined, apiResult, true);
       default:
-        throw getAPIErrorObj(APIErrorMessage.DEFAULT_API_ERROR);
+        throw getAPIErrObj(APIErrorMessage.DEFAULT_API_ERROR, undefined, apiResult, true);
     }
   };
 
-  modifyAccountInfo = async (newAccountData: Partial<NType.AccountInfoModifyRequestType>, refreshAfterSuccess = false) => {
-    const apiResult = await this.post<NType.AuthenticationResponseDataType>('account', newAccountData);
+  modifyAccountInfo = async (
+    newAccountData: Partial<{ id: string; nick: string; private: boolean; description: string; }>,
+    refreshAfterSuccess = false,
+  ) => {
+    const apiResult = await this.post<NType.UserInfoModifyRespDataType>('account', newAccountData);
     if (apiResult.success) return refreshAfterSuccess ? this.refreshAuthentications(true) : this;
 
-    const getAPIErrorObj = (message: string, fields?: Record<string, string>) => createSimpleAPIErrorObj(apiResult, message, true, fields);
     switch (apiResult.sub_code) {
-      case 'user.not_found':
-        throw getAPIErrorObj(AccountErrorMessage.NOT_FOUND);
-      case 'user.info_mismatch':
-        throw getAPIErrorObj(AccountErrorMessage.INFO_MISMATCH);
-      case 'user.already_used': {
-        const duplicatedItem: string = apiResult.data.duplicate[0];
-        const message = strUtil._f(AccountErrorMessage.FIELD_VALUE_ALREADY_USED, strUtil.getAlreadyUsedFieldName(duplicatedItem));
-        throw getAPIErrorObj(message, duplicatedItem);
-      }
-      case 'request.body.empty':
-        throw getAPIErrorObj(APIErrorMessage.REQUEST_BODY_EMPTY);
-      case 'request.body.bad_semantics': {
-        const badSemanticsData: {
-          field: string;
-          reason: string;
-        }[] = reason.apiResponse.data;
-        const parsedBadSemanticsData = badSemanticsData.forEach((value, index, array) => {
-          const isThisTheLastItem = (array.length - 1) === index;
-          // Fuck, FrostError can pass only one error field.
-          // Just return a first error field.
-          const currentErrorFieldName = SERVER_CLIENT_FIELD_MAP[value.field];
+      // case 'user.already_used': {
+      //   const duplicatedItem: string = apiResult.data.duplicate[0];
+      //   const message = strUtil._f(AccountErrorMessage.FIELD_VALUE_ALREADY_USED, strUtil.getAlreadyUsedFieldName(duplicatedItem));
+      //   throw apiErrorWithTokenInvalidation(apiResult, message, duplicatedItem);
+      // }
+      // case 'request.body.bad_semantics': {
+      //   const badSemanticsData: { field: string; reason: string; }[] = reason.apiResponse.data;
+      //   const parsedBadSemanticsData = badSemanticsData.forEach((value, index, array) => {
+      //     const isThisTheLastItem = (array.length - 1) === index;
+      //     // Fuck, FrostError can pass only one error field.
+      //     // Just return a first error field.
+      //     const currentErrorFieldName = SERVER_CLIENT_FIELD_MAP[value.field];
 
-          if (isThisTheLastItem && !currentErrorFieldName && !errorFieldName) {
-            // If all error fields are not supported and if there's no field to show error message,
-            // then just show a default message.
-            errorMsg = '서버에 보낸 계정의 새 정보가 올바르지 않아요,\n새로고침 후 다시 시도해주세요.';
-            return;
-          }
-          errorFieldName = currentErrorFieldName;
-          throw getAPIErrorObj(APIErrorMessage.REQUEST_BODY_CONTAINS_INVALID_CHAR)
-        });
-        break;
-      }
+      //     if (isThisTheLastItem && !currentErrorFieldName && !errorFieldName) {
+      //       // If all error fields are not supported and if there's no field to show error message,
+      //       // then just show a default message.
+      //       errorMsg = '서버에 보낸 계정의 새 정보가 올바르지 않아요,\n새로고침 후 다시 시도해주세요.';
+      //       return;
+      //     }
+      //     errorFieldName = currentErrorFieldName;
+      //     throw apiErrorWithTokenInvalidation(apiResult, APIErrorMessage.REQUEST_BODY_CONTAINS_INVALID_CHAR)
+      //   });
+      //   break;
+      // }
+      case 'user.not_found':
+        throw getAPIErrObj(AccountErrorMessage.NOT_FOUND, undefined, apiResult, true);
+      case 'user.info_mismatch':
+        throw getAPIErrObj(AccountErrorMessage.INFO_MISMATCH, undefined, apiResult, false);
+      case 'request.body.empty':
+        throw getAPIErrObj(APIErrorMessage.REQUEST_BODY_EMPTY, undefined, apiResult, false);
       default:
-        throw getAPIErrorObj(APIErrorMessage.DEFAULT_API_ERROR);
+        throw getAPIErrObj(APIErrorMessage.DEFAULT_API_ERROR, undefined, apiResult, true);
     }
   };
 }

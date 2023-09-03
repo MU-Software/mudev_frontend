@@ -30,13 +30,13 @@ export const AccountErrorMessage = {
   EMAIL_NOT_VERIFIED: '아직 가입 시 적으신 메일 주소를 인증하지 않으셨어요,\n메일함을 확인 후 메일 인증을 진행해주세요.',
   DEACTIVATE_FAIL_AS_ACCOUNT_LOCKED: (
     '계정이 잠겨있어서 비활성화를 할 수 없습니다,\n'
-    +'계정을 잠근 상태에서 해제한 후 다시 시도해주세요.\n'
-    +'(계정이 잠긴 이유: {0})'
+    + '계정을 잠근 상태에서 해제한 후 다시 시도해주세요.\n'
+    + '(계정이 잠긴 이유: {0})'
   ),
   DEACTIVATE_FAIL_AS_ALREADY_DEACTIVATED: (
     '계정이 이미 비활성화가 되어있습니다,\n'
-    +'이용해주셔서 감사합니다!\n'
-    +'(계정이 비활성화된 이유: {0})'
+    + '이용해주셔서 감사합니다!\n'
+    + '(계정이 비활성화된 이유: {0})'
   ),
   FIELD_VALUE_ALREADY_USED: '입력하신 {0} 이미 다른 계정에서 사용 중이에요.',
   EMAIL_NOT_VALID: '이메일 형식이 올바르지 않아요,\n다시 입력해주세요.',
@@ -48,7 +48,7 @@ export const AccountErrorMessage = {
 export type DetailedAPIErrorMessageType = {
   message: string;
   debugMessage: string;
-}
+};
 
 export const APIErrorMessageMap: Record<string, DetailedAPIErrorMessageType> = {
   'request.body.empty': {
@@ -91,7 +91,12 @@ export const APIErrorMessageMap: Record<string, DetailedAPIErrorMessageType> = {
   }
 };
 
-export const getAPIErrorMessage = (sub_code: string): DetailedAPIErrorMessageType | undefined => {
+export const getAPIErrorMessage = (sub_code: string): DetailedAPIErrorMessageType => {
   for (const [key, value] of Object.entries(APIErrorMessageMap))
     if (wildcardCheck(key, sub_code)) return value;
-}
+
+  return {
+    message: APIErrorMessage.DEFAULT_API_ERROR,
+    debugMessage: `알 수 없는 에러입니다. (sub_code: ${sub_code})`,
+  };
+};

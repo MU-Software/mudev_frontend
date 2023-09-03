@@ -3,8 +3,6 @@ import { Button } from 'react-bootstrap';
 
 import './phButton.css';
 
-const REACT_ELEMENT_TYPE = (typeof Symbol === 'function' && Symbol.for && Symbol.for('react.element')) || 0xeac7;
-
 // From react-bootstrap
 type Variant = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | string;
 type ButtonVariant = Variant | 'link' | 'outline-primary' | 'outline-secondary' | 'outline-success' | 'outline-danger' | 'outline-warning' | 'outline-info' | 'outline-dark' | 'outline-light';
@@ -19,7 +17,7 @@ interface PHButtonProps {
   width?: string;
   height?: string;
   smaller?: boolean;
-  children?: any;
+  children?: React.ReactNode;
 }
 
 const PHButton: React.FC<PHButtonProps> = ({
@@ -29,14 +27,10 @@ const PHButton: React.FC<PHButtonProps> = ({
   size = 'sm',
   style = null,
   onClick = null,
-  width,
-  height,
   smaller = false,
   children = null,
 }) => {
   const commonButtonStyle = {
-    // width: width,
-    // height: height,
     margin: '0.25rem',
   };
   const extraSmallButtonStyle = {
