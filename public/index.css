@@ -41,11 +41,19 @@
 
   --topbar-z-index: 10000;
   --sidebar-z-index: 10000;
-  --main-page-z-index: -100;
+  --main-page-z-index: 0;
+  /* dummy sidebar must be placed below main page not to block scroll action */
+  --dummy-sidebar-z-index: -10000;
 
   --scrollbar-width: 18px;
+  /*
+  I really want to use these values on media query,
+  but CSS currently cannot do that.
+  */
+  --tablet-width: 820px;
+  --mobile-width: 480px;
 
-  --transition-delay: .3s;
+  --transition-duration: .3s;
 
   /* Resetting mvp.css */
   --hover-brightness: 1.2;
@@ -194,7 +202,7 @@ body {
   -webkit-overflow-scrolling: touch;
   background-color: var(--background-color) !important;
   background: var(--background) !important;
-  color: var(--color);
+  color: var(--color) !important;
 }
 
 main {
@@ -243,6 +251,13 @@ nav {
   /* Resetting mvp.css */
   margin-bottom: 0 !important;
 }
+
+picture {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 
 .tooltip {
   /*
