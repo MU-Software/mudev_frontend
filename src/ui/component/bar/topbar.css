@@ -14,7 +14,8 @@
   align-items: center !important;
 
   background-color: none !important;
-  transition: var(--transition-delay);
+  backdrop-filter: blur(0.5rem) !important;
+  transition: var(--transition-duration);
 
   color: var(--color) !important;
 }
@@ -52,7 +53,7 @@
   height: 100%;
   max-height: 100%;
   border-radius: 50%;
-  transition: var(--transition-delay);
+  transition: var(--transition-duration);
   background-color: var(--topbar-logo-background);
 }
 

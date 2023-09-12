@@ -2,8 +2,9 @@ import { mdiHome, mdiPlayCircleOutline, mdiPost } from '@mdi/js';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
-import { Sidebar } from '@ui/component/layout/sidebar';
-import { Topbar } from '@ui/component/layout/topbar';
+import { DummySidebar } from '@ui/component/bar/dummySidebar';
+import { Sidebar } from '@ui/component/bar/sidebar';
+import { Topbar } from '@ui/component/bar/topbar';
 import { RouteDefinition, RouteDefinitionList } from '@ui/util/route_manager';
 
 import { BlogMain } from '@page/blog';
@@ -22,6 +23,7 @@ export const Page: React.FC<{ className?: string; }> = ({ className }) => <div c
   <BrowserRouter>
     <Topbar routeData={ROUTE_DEFINITIONS.topbarRoutes} />
     <Sidebar sidebarItems={ROUTE_DEFINITIONS.sidebarItems} />
+    <DummySidebar />
     {ROUTE_DEFINITIONS.routes}
   </BrowserRouter>
 </div>;

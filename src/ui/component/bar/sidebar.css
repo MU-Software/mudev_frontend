@@ -1,12 +1,16 @@
 .sidebarContainer {
   position: fixed;
-  height: calc(100vh - var(--topbar-height));
   top: var(--topbar-height);
   left: 0;
+
+  height: calc(100vh - var(--topbar-height));
   width: var(--sidebar-width);
+
   border-radius: 0 .25rem .25rem 0 !important;
+  overflow: hidden;
 
   transition: 0.1s !important;
+  z-index: var(--sidebar-z-index) !important;
 }
 
 .sidebarContainerPuller {
@@ -28,6 +32,8 @@
   display: none;
   justify-content: center;
   align-items: center;
+
+  z-index: var(--sidebar-z-index) !important;
 }
 
 .sidebarIconPills {
@@ -41,7 +47,7 @@
   align-items: center !important;
   justify-content: center !important;
 
-  transition: var(--transition-delay) !important;
+  transition: var(--transition-duration) !important;
 }
 
 .sidebarIconPills:hover:not(.active) {
