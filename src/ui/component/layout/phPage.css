@@ -1,0 +1,40 @@
+.phPageContainer {
+  display: fixed;
+  height: 100%;
+  width: 100%;
+}
+
+.phPage {
+  position: absolute;
+  height: 100%;
+  min-width: calc(100% - (var(--sidebar-width) * 2));
+  width: calc(100% - (var(--sidebar-width) * 2));
+  max-width: calc(100% - (var(--sidebar-width) * 2));
+  transition:
+    min-width var(--transition-duration),
+    width var(--transition-duration),
+    max-width var(--transition-duration),
+    left var(--transition-duration);
+
+  top: 0;
+  left: var(--sidebar-width);
+}
+
+/* Disable dummy sidebar on tablet width screen */
+@media only screen and (max-width: 820px) {
+  .phPage {
+    min-width: calc(100% - var(--sidebar-width));
+    width: calc(100% - var(--sidebar-width));
+    max-width: calc(100% - var(--sidebar-width));
+  }
+}
+
+/* Disable sidebar on mobile width screen */
+@media only screen and (max-width: 480px) {
+  .phPage {
+    min-width: 100%;
+    width: 100%;
+    max-width: 100%;
+    left: 0;
+  }
+}
