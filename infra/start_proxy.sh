@@ -20,7 +20,7 @@ http {  \n\
         keepalive       1024;  \n\
     }  \n\
     upstream front {  \n\
-        server          host.docker.internal:3000;  \n\
+        server          host.docker.internal:23000;  \n\
         keepalive       1024;  \n\
     }  \n\
     server {  \n\
