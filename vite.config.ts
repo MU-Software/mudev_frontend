@@ -11,6 +11,7 @@ export default defineConfig({
       '@src': path.resolve(__dirname, './src'),
       '@ui': path.resolve(__dirname, './src/ui'),
       '@asset': path.resolve(__dirname, './src/asset'),
+      '@const': path.resolve(__dirname, './src/const'),
       '@network': path.resolve(__dirname, './src/network'),
       '@page': path.resolve(__dirname, './src/ui/page'),
       '@util': path.resolve(__dirname, './src/util'),
