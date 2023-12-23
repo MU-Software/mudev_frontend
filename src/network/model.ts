@@ -16,13 +16,13 @@ export type PyDictType = Record<string, unknown>;
 export type APIResultGenericTypes = {
   S: PyDictType;
   // Default Pydantic Validation Error Type
-  Err400DT: { loc: string[]; msg: string; type: string; ctx?: PyDictType; }[];
-  Err400CT: PyDictType;
+  Err422DT: { loc: string[]; msg: string; type: string; ctx?: PyDictType; }[];
+  Err422CT: PyDictType;
 };
 
 export type APIResultErrorDataType<T extends APIResultGenericTypes = APIResultGenericTypes> = (
   // For HTTP Error Response Status
-  { detail?: T['Err400DT']; context?: T['Err400CT']; } // 400
+  { detail?: T['Err422DT']; context?: T['Err422CT']; } // 422
 );
 export type APIResultDataType<T extends APIResultGenericTypes = APIResultGenericTypes> = T['S'] | APIResultErrorDataType<T>;
 export type APIResultType<T extends APIResultGenericTypes = APIResultGenericTypes> = (
@@ -122,5 +122,5 @@ export type AuthTSucceedRespDataType = { user: TokenInfoPayloadType; };
 export type AuthTSucceedAPIResultGenericTypes = APIResultGenericTypes & { S: AuthTSucceedRespDataType; };
 export type TokenRefreshRespDataType = AuthTSucceedAPIResultGenericTypes;
 export type SignInRespDataType = AuthTSucceedAPIResultGenericTypes;
-export type SignUpRespDataType = AuthTSucceedAPIResultGenericTypes & { Err400CT: { left_chance?: number; }; };
+export type SignUpRespDataType = AuthTSucceedAPIResultGenericTypes & { Err422CT: { left_chance?: number; }; };
 export type UserInfoModifyRespDataType = APIResultGenericTypes & { S: UserInfoPayloadType; };
