@@ -23,6 +23,10 @@ http {  \n\
         server          host.docker.internal:23000;  \n\
         keepalive       1024;  \n\
     }  \n\
+    upstream storybook {  \n\
+        server          host.docker.internal:23001;  \n\
+        keepalive       1024;  \n\
+    }  \n\
     server {  \n\
         listen          80;  \n\
         location / {  \n\
@@ -31,6 +35,10 @@ http {  \n\
         location /api {  \n\
             rewrite ^/api(.*)$ $1 break;  \n\
             proxy_pass  http://api;  \n\
+        }  \n\
+        location /sb {  \n\
+            rewrite ^/sb(.*)$ $1 break;  \n\
+            proxy_pass  http://storybook;  \n\
         }  \n\
     }  \n\
     access_log          /var/log/nginx/access.log;  \n\
