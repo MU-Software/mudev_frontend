@@ -7,8 +7,8 @@ const HrStyle: React.CSSProperties = {
   borderTop: 'var(--border-color) 1px solid',
 };
 
-interface DividerPropTypes {
+interface PHDividerPropTypes {
   style?: React.CSSProperties
 }
 
-export const Divider = ({style}: DividerPropTypes) => <hr style={{ ...HrStyle, ...(style ?? {}) }} />;
+export const PHDivider = ({style}: PHDividerPropTypes) => <hr style={{ ...HrStyle, ...(style ?? {}) }} />;

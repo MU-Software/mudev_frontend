@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { Divider } from "./divider";
+import { PHDivider } from "./phDivider";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'Component/Divider',
-  component: Divider,
+  title: 'Component/phDivider',
+  component: PHDivider,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
     layout: 'centered',
@@ -15,7 +15,7 @@ const meta = {
   // argTypes: {
   //   backgroundColor: { control: 'color' },
   // },
-} satisfies Meta<typeof Divider>;
+} satisfies Meta<typeof PHDivider>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

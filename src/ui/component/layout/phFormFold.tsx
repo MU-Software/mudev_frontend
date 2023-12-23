@@ -2,7 +2,7 @@ import React from 'react';
 import { Form } from 'react-bootstrap';
 
 import { FetchMethod } from '@network/api.type';
-import { Divider } from '@ui/component/element/divider';
+import { PHDivider } from '@ui/component/element/phDivider';
 import { PHButton } from '@ui/component/element/phButton';
 import {
   PHFoldableBaseStateType,
@@ -89,7 +89,7 @@ export class PHFormFoldableComponent<
     return <>
       {this.props.children}
       <div className='phFormFoldButtonContainer'>{submitBtn}{this.props.showResetBtn && resetBtn}</div>
-      <Divider style={{ margin: '1.25rem 0', padding: 0, width: '100%' }} />
+      <PHDivider style={{ margin: '1.25rem 0', padding: 0, width: '100%' }} />
       {this.getResultChildren()}
     </>
   };

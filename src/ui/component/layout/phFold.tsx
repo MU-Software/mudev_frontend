@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Divider } from '@ui/component/element/divider';
+import { PHDivider } from '@ui/component/element/phDivider';
 
 import './phFold.css';
 
@@ -51,7 +51,7 @@ export class PHFoldableComponent<
       </summary>
       {/* Description */}
       <div className='phFoldDescription'>{this.props.description}</div>
-      <Divider style={{ margin: '1.25rem 0', padding: 0, width: '100%' }} />
+      <PHDivider style={{ margin: '1.25rem 0', padding: 0, width: '100%' }} />
 
       {/* Children */}
       {this.getChildren()}
