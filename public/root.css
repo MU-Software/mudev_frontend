@@ -30,6 +30,7 @@
   --mu-text-img-shadow: none;
   --mu-text-logo: none;
 
+  --topbar-width: 100%;
   --topbar-height: 56px;
   --topbar-background-hovered: var(--color-25);
   --topbar-logo-background: var(--color-25);
@@ -37,6 +38,7 @@
   --topbar-padding: 8px 0;
   --topbar-logo-height: 40px;
 
+  --sidebar-height: calc(100% - var(--topbar-height));
   --sidebar-width: 4rem;
   --sidebar-pill-height: 56px;
   --sidebar-puller-height: 4rem;
@@ -67,7 +69,7 @@
 :root[color-theme='light'] {
   --mu-img-background: rgba(0, 0, 0, .15);
   --mu-img-background-hover: rgba(0, 0, 0, .5);
-  --mu-text-img-shadow: drop-shadow(0 0 0.75rem rgba(0, 0, 0, .5));
+  --mu-text-img-shadow: drop-shadow(0 0 0.75rem var(--color-25));
   --mu-text-logo: invert(1);
   --border-color: var(--color-25);
   /* --color-bg-secondary: var(--color-transparent); */
