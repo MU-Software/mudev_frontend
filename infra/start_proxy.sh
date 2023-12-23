@@ -15,30 +15,24 @@ events {  \n\
 http {  \n\
     include             /etc/nginx/mime.types;  \n\
     default_type        application/octet-stream;  \n\
-    upstream api {  \n\
-        server          host.docker.internal:28000;  \n\
-        keepalive       1024;  \n\
-    }  \n\
-    upstream front {  \n\
-        server          host.docker.internal:23000;  \n\
-        keepalive       1024;  \n\
-    }  \n\
-    upstream storybook {  \n\
-        server          host.docker.internal:23001;  \n\
-        keepalive       1024;  \n\
-    }  \n\
     server {  \n\
         listen          80;  \n\
         location / {  \n\
-            proxy_pass  http://front;  \n\
+            rewrite ^/(.*) /\$1 break;  \n\
+            proxy_pass  http://host.docker.internal:23000/;  \n\
         }  \n\
-        location /api {  \n\
-            rewrite ^/api(.*)$ $1 break;  \n\
-            proxy_pass  http://api;  \n\
+        location /api/ {  \n\
+            rewrite ^/api/(.*) /\$1 break;  \n\
+            proxy_pass  http://host.docker.internal:28000/;  \n\
         }  \n\
-        location /sb {  \n\
-            rewrite ^/sb(.*)$ $1 break;  \n\
-            proxy_pass  http://storybook;  \n\
+        location /storybook/ {  \n\
+            proxy_pass  http://host.docker.internal:23001/;  \n\
+            proxy_http_version 1.1;  \n\
+            proxy_set_header   Upgrade \$http_upgrade;  \n\
+            proxy_set_header   Connection "upgrade";  \n\
+            proxy_set_header   Host \$host;  \n\
+            proxy_set_header   Origin "";  \n\
+            proxy_buffering    off;  \n\
         }  \n\
     }  \n\
     access_log          /var/log/nginx/access.log;  \n\
