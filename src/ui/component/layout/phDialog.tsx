@@ -88,7 +88,7 @@ const PHDialogActionStyle = css({
     alignItems: 'center',
 });
 
-export const PhDialog: React.FC<PHDialogPropType> = props => {
+export const PHDialog: React.FC<PHDialogPropType> = props => {
     const dialogRef = React.useRef<HTMLDialogElement>(null);
 
     const cancelDialog = (e: Event) => {

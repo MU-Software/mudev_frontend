@@ -1,9 +1,9 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { PhDialog } from "./phDialog";
+import { PHDialog } from "./phDialog";
 
 const meta = {
   title: 'Layout/phDialog',
-  component: PhDialog,
+  component: PHDialog,
   parameters: { layout: 'centered' },
   args: {
     header: <h1>Header</h1>,
@@ -13,7 +13,7 @@ const meta = {
     isCancelable: true,
     isNotModal: false,
   },
-} satisfies Meta<typeof PhDialog>;
+} satisfies Meta<typeof PHDialog>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
