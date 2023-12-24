@@ -13,7 +13,7 @@ const baseSidebarStyle = css({
   height: "var(--sidebar-height)",
   width: "var(--sidebar-width)",
 
-  borderRadius: "0 .25rem .25rem 0 !important",
+  borderRadius: "0 var(--sidebar-border-radius) var(--sidebar-border-radius) 0 !important",
   transition: "0.1s !important",
 });
 
@@ -49,7 +49,7 @@ const sidebarContainerPullerStyle = css({
   borderTop: "1px solid var(--color-25)",
   borderBottom: "1px solid var(--color-25)",
   borderRight: "1px solid var(--color-25)",
-  borderRadius: "0 .25rem .25rem 0 !important",
+  borderRadius: "0 var(--sidebar-border-radius) var(--sidebar-border-radius) 0 !important",
   display: "none",
   justifyContent: "center",
   alignItems: "center",
@@ -68,7 +68,7 @@ const sidebarIconPillsStyle = css({
   height: "var(--sidebar-pill-height) !important",
   paddingTop: "0.5rem !important",
   paddingBottom: "0.5rem !important",
-  borderRadius: "0 0.25rem 0.25rem 0 !important",
+  borderRadius: "0 var(--sidebar-border-radius) var(--sidebar-border-radius) 0 !important",
 
   color: "var(--color-50) !important",
   transition: "var(--transition-duration) !important",

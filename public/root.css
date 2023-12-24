@@ -25,6 +25,9 @@
   --color-shadow: var(--border-color);
   --box-shadow: 2px 2px 10px;
 
+  --dialog-radius: 1rem;
+  --dialog-background-color: var(--color-inv-25);
+
   --mu-img-background: none;
   --mu-img-background-hover: none;
   --mu-text-img-shadow: none;
@@ -40,6 +43,7 @@
 
   --sidebar-height: calc(100% - var(--topbar-height));
   --sidebar-width: 4rem;
+  --sidebar-border-radius: 0.25rem;
   --sidebar-pill-height: 56px;
   --sidebar-puller-height: 4rem;
   --sidebar-puller-width: 1.25rem;
@@ -73,6 +77,7 @@
   --mu-text-logo: invert(1);
   --border-color: var(--color-25);
   /* --color-bg-secondary: var(--color-transparent); */
+  --dialog-background-color: var(--color-inv-25);
 
   --hover-brightness: unset !important;
 }
@@ -129,6 +134,11 @@
 
   --topbar-logo-background: unset;
   --topbar-logo-background-hovered: unset;
+}
+
+::backdrop {
+  backdrop-filter: blur(0.25rem);
+  opacity: 0.9;
 }
 
 ::-moz-selection {
@@ -216,9 +226,9 @@ main {
   font-family: 'leferi-point-black', sans-serif;
 
   /* Resetting react-bootstrap */
-  margin: 0;
-  margin-top: 0;
-  margin-bottom: 0;
+  margin: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
 }
 
 section aside, form {
