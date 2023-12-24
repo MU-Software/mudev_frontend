@@ -272,3 +272,11 @@ input[type="text"] {
   /* Resetting mvp.css */
   width: 100% !important;
 }
+
+code {
+  /* Resetting mvp.css */
+  background-color: var(--color-50) !important;
+  color: var(--color-inv) !important;
+  margin: 0.25rem !important;
+  padding: 0.25rem 0.75rem !important;
+}
