@@ -267,3 +267,8 @@ picture {
   justify-content: center;
   align-items: center;
 }
+
+input[type="text"] {
+  /* Resetting mvp.css */
+  width: 100% !important;
+}
