@@ -40,8 +40,6 @@ const getAPIErrObj = (
 // const apiErrorWithTokenInvalidation = (apiRes: NType.APIResultType, msg: string, fields?: Record<string, string>) => createAPIErrorObj(apiRes, msg, true, fields);
 
 class API {
-  // Refresh Token will be saved on cookie storage, and all of these attributes must be private.
-  readonly #BASE_URL = 'https://mudev.cc/api/dev/';
   // We "possibly" returns response.json() on these HTTP Response status code.
   // Although these HTTP Response status code means error, each routes have to handle these codes differently.
   static readonly RETURNABLE_ERROR = [
@@ -69,7 +67,6 @@ class API {
   };
 
   // Account related properties
-  #csrfToken = strUtil.generateRandomSecureToken(32);
   #accessToken = '';
   #accessTokenExpiresAt: Date = new Date('Thu, 01 Jan 1970 00:00:00 GMT');
 
@@ -77,14 +74,12 @@ class API {
   constructor() {
     if (API.instance) return API.instance;
 
-    this.#csrfToken = strUtil.generateRandomSecureToken(32);
     API.instance = this;
   }
 
   #clearAuthenticationInfo() {
     this.#accessToken = '';
     this.#accessTokenExpiresAt = new Date('Thu, 01 Jan 1970 00:00:00 GMT');
-    this.#csrfToken = strUtil.generateRandomSecureToken(32);
   }
 
   #fetch: NType.APIRequestFetcherType = (method, route, accessTokenRequired, additionalHeaders, data) => {
@@ -95,9 +90,7 @@ class API {
       headers: objUtil.filterRecord({
         ...this.#DEFAULT_FETCH_HEADER,
         ...(additionalHeaders ?? {}),
-        // always send X-Csrf-Token. This won't be a security hole.
-        'X-Csrf-Token': this.#csrfToken,
-        // add access token on header if accessTokenRequired is true
+        // Add access token on header if accessTokenRequired is true
         'Authorization': accessTokenRequired ? `Bearer ${this.#accessToken}` : '',
       }),
       // only add body on POST/PATCH/PUT methods
@@ -107,7 +100,7 @@ class API {
     });
 
     // TODO: FIXME: We need to handle HEAD method separately as this method doesn't return any body.
-    return fetch(this.#BASE_URL + route, fetchOption);
+    return fetch(import.meta.env.VITE_API_SERVER + route, fetchOption);
   };
 
   #checkResponse: NType.APIResponseHandlerType = async (method, route, accessTokenRequired, additionalHeaders, data, isRetry, response) => {
