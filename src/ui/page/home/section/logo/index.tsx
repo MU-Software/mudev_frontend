@@ -12,9 +12,9 @@ export const HomeLogoSection: React.FC = () => <PHPageSection className='homeInd
   <PHScrollIndicator className='dummyScrollIndicator' style={{ visibility: 'hidden', }} />
   <div className='targetLogoContainer'>
     <picture className='targetImgLogo'>
-      <source srcSet={MUFullLogoWebP} type='image/webp'/>
-      <source srcSet={MUFullLogoAPNG} type='image/apng'/>
-      <source srcSet={MUFullLogoAPNG} type='image/png'/>
+      <source srcSet={MUFullLogoWebP} type='image/webp' />
+      <source srcSet={MUFullLogoAPNG} type='image/apng' />
+      <source srcSet={MUFullLogoAPNG} type='image/png' />
       <img className='targetImgLogo' src={MUFullLogoAPNG} alt='MUsoftware Logo' />
     </picture>
     <br />
