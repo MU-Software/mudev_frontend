@@ -5,12 +5,6 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  '@asset':
-    specifier: link:src/asset
-    version: link:src/asset
-  '@const':
-    specifier: link:src/const
-    version: link:src/const
   '@emotion/babel-plugin':
     specifier: ^11.11.0
     version: 11.11.0
@@ -23,30 +17,36 @@ dependencies:
   '@emotion/styled':
     specifier: ^11.11.0
     version: 11.11.0(@emotion/react@11.11.1)(@types/react@18.2.45)(react@18.2.0)
+  '@local/asset':
+    specifier: link:src/asset
+    version: link:src/asset
+  '@local/const':
+    specifier: link:src/const
+    version: link:src/const
+  '@local/network':
+    specifier: link:src/network
+    version: link:src/network
+  '@local/page':
+    specifier: link:src/ui/page
+    version: link:src/ui/page
+  '@local/src':
+    specifier: link:src
+    version: link:src
+  '@local/ui':
+    specifier: link:src/ui
+    version: link:src/ui
+  '@local/util':
+    specifier: link:src/util
+    version: link:src/util
   '@mdi/js':
     specifier: ^7.3.67
     version: 7.3.67
   '@mdi/react':
     specifier: ^1.6.1
     version: 1.6.1
-  '@network':
-    specifier: link:src/network
-    version: link:src/network
-  '@page':
-    specifier: link:src/ui/page
-    version: link:src/ui/page
   '@reduxjs/toolkit':
     specifier: ^2.0.1
     version: 2.0.1(react-redux@9.0.4)(react@18.2.0)
-  '@src':
-    specifier: link:src
-    version: link:src
-  '@ui':
-    specifier: link:src/ui
-    version: link:src/ui
-  '@util':
-    specifier: link:src/util
-    version: link:src/util
   emotion-reset:
     specifier: ^3.0.1
     version: 3.0.1(@emotion/react@11.11.1)

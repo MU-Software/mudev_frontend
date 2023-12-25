@@ -2,7 +2,7 @@ import React from "react";
 import { css } from "@emotion/css";
 import { Form } from "react-bootstrap";
 
-import { PHDialog } from "@ui/component/layout/phDialog";
+import { PHDialog } from "@local/ui/component/layout/phDialog";
 
 type SignInDialogPropType = {
     isOpen?: boolean;

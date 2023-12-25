@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { PHDivider } from '@ui/component/element/phDivider';
+import { PHDivider } from '@local/ui/component/element/phDivider';
 
 import './phFold.css';
 

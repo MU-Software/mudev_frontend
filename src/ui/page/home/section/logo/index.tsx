@@ -1,11 +1,11 @@
 import React from 'react';
 
-import MU8BitLogo from '@asset/image/logo/mu_pixel_logo_8x.png';
-import { PHScrollIndicator } from '@ui/component/element/phScrollIndicator';
-import { PHPageSection } from '@ui/component/layout/phPageSection';
+import MU8BitLogo from '@local/asset/image/logo/mu_pixel_logo_8x.png';
+import { PHScrollIndicator } from '@local/ui/component/element/phScrollIndicator';
+import { PHPageSection } from '@local/ui/component/layout/phPageSection';
 
-import MUFullLogoAPNG from '@asset/image/logo/mu_logo_512px.png';
-import MUFullLogoWebP from '@asset/image/logo/mu_logo_512px.webp';
+import MUFullLogoAPNG from '@local/asset/image/logo/mu_logo_512px.png';
+import MUFullLogoWebP from '@local/asset/image/logo/mu_logo_512px.webp';
 import './index.css';
 
 export const HomeLogoSection: React.FC = () => <PHPageSection className='homeIndexSection'>

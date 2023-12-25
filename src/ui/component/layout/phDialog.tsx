@@ -2,7 +2,7 @@ import React from 'react';
 import { css } from '@emotion/css';
 import { Icon } from '@mdi/react';
 import { mdiClose } from '@mdi/js';
-import { PHButton, ButtonVariant } from '@ui/component/element/phButton';
+import { PHButton, ButtonVariant } from '@local/ui/component/element/phButton';
 
 type PHDialogActionType = {
     children: React.ReactNode;

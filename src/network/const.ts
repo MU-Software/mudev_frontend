@@ -1,4 +1,4 @@
-import { wildcardCheck } from "@util/string_util";
+import { wildcardCheck } from "@local/util/string_util";
 
 const PLEASE_NOTIFY_TO_ADMIN = '\n10분 후에 다시 시도해주세요.\n(만약 이 메시지를 계속 보시게 된다면 관리자에게 알려주세요!)';
 

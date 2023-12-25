@@ -1,15 +1,15 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
 
-import { FetchMethod } from '@network/api.type';
-import { PHDivider } from '@ui/component/element/phDivider';
-import { PHButton } from '@ui/component/element/phButton';
+import { FetchMethod } from '@local/network/api.type';
+import { PHDivider } from '@local/ui/component/element/phDivider';
+import { PHButton } from '@local/ui/component/element/phButton';
 import {
   PHFoldableBaseStateType,
   PHFoldableComponent,
   PHFoldablePropsType,
   PH_FOLDABLE_BASE_STATE
-} from '@ui/component/layout/phFold';
+} from '@local/ui/component/layout/phFold';
 import { PHLoading } from '../element/phLoading';
 
 export type PHFormFoldableBasePropsType = PHFoldablePropsType & {

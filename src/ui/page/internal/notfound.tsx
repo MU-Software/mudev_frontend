@@ -1,8 +1,8 @@
 import { css } from '@emotion/css';
 import { useNavigate } from 'react-router-dom';
 
-import { PHButton } from '@ui/component/element/phButton';
-import { PHPage } from '@ui/component/layout/phPage';
+import { PHButton } from '@local/ui/component/element/phButton';
+import { PHPage } from '@local/ui/component/layout/phPage';
 
 const NotFoundPageStyle = css({
   display: 'flex',

@@ -1,7 +1,7 @@
 import { css } from '@emotion/css';
 import React from 'react';
 
-import { DUMMY_SIDEBAR_HIDE_MEDIA_QUERY, SIDEBAR_HIDE_MEDIA_QUERY } from '@const/ui';
+import { DUMMY_SIDEBAR_HIDE_MEDIA_QUERY, SIDEBAR_HIDE_MEDIA_QUERY } from '@local/const/ui';
 
 const phPageContainerStyle = css({
   display: "flex",

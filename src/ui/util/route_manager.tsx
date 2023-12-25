@@ -1,8 +1,8 @@
 import { mdiLinkVariant } from '@mdi/js';
 import { Route, Routes } from 'react-router-dom';
 
-import { SidebarItemData } from "@ui/component/bar/sidebar";
-import { TopbarRouteData } from "@ui/component/bar/topbar";
+import { SidebarItemData } from "@local/ui/component/bar/sidebar";
+import { TopbarRouteData } from "@local/ui/component/bar/topbar";
 
 class RouteDefinition {
   constructor(

@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { Topbar } from "@ui/component/bar/topbar";
+import { Topbar } from "@local/ui/component/bar/topbar";
 
 const meta = {
   title: 'Bar/Topbar',

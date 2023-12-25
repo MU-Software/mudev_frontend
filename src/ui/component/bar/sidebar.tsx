@@ -4,7 +4,7 @@ import React from 'react';
 import { Nav, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { SIDEBAR_HIDE_MEDIA_QUERY } from '@const/ui';
+import { SIDEBAR_HIDE_MEDIA_QUERY } from '@local/const/ui';
 
 const baseSidebarStyle = css({
   position: "fixed",

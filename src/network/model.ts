@@ -1,4 +1,4 @@
-import { DetailedAPIErrorMessageType, getAPIErrorMessage } from '@network/const';
+import { DetailedAPIErrorMessageType, getAPIErrorMessage } from '@local/network/const';
 
 export const HttpMethodType = {
   // We will support only these methods for now

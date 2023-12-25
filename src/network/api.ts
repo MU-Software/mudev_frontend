@@ -1,7 +1,7 @@
-import { APIErrorMessage, AccountErrorMessage } from '@network/const';
-import * as NType from '@network/model';
-import * as objUtil from '@util/object_util';
-import * as strUtil from '@util/string_util';
+import { APIErrorMessage, AccountErrorMessage } from '@local/network/const';
+import * as NType from '@local/network/model';
+import * as objUtil from '@local/util/object_util';
+import * as strUtil from '@local/util/string_util';
 
 const getAPIErrorDbgMsg = (
   apiResult: NType.APIResultType

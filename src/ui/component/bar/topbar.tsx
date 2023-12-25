@@ -6,8 +6,8 @@ import React, { useState } from 'react';
 import { Form, NavDropdown, Navbar } from 'react-bootstrap';
 import { useLocation } from 'react-router-dom';
 
-import TopBarLogo from '@asset/image/logo/mu_logo.png'; // TODO: FIXME: Use SVG instead of PNG
-import { darkThemeTypeCollection, getCurrentTheme, isDeepDarkEnabled, toggleDeepDark, toggleTheme } from '@ui/util/dark_mode';
+import TopBarLogo from '@local/asset/image/logo/mu_logo.png'; // TODO: FIXME: Use SVG instead of PNG
+import { darkThemeTypeCollection, getCurrentTheme, isDeepDarkEnabled, toggleDeepDark, toggleTheme } from '@local/ui/util/dark_mode';
 
 class TopbarRouteData {
   constructor(
