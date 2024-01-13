@@ -1,5 +1,5 @@
-import { Meta, StoryObj } from "@storybook/react";
-import { PHDivider } from "./phDivider";
+import { Meta, StoryObj } from '@storybook/react'
+import { PHDivider } from './phDivider'
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
@@ -15,11 +15,10 @@ const meta = {
   // argTypes: {
   //   backgroundColor: { control: 'color' },
   // },
-} satisfies Meta<typeof PHDivider>;
+} satisfies Meta<typeof PHDivider>
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export default meta
+type Story = StoryObj<typeof meta>
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
-export const Component: Story = { };
-
+export const Component: Story = {}

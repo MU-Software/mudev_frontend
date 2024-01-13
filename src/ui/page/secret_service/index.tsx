@@ -1,1 +1,1 @@
-export const SecretServiceMain = () => <>qweqweqwe</>;
+export const SecretServiceMain = () => <>qweqweqwe</>

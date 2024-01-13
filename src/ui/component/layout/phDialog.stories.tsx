@@ -1,7 +1,7 @@
-import { Meta, StoryObj } from "@storybook/react";
-import { Form } from "react-bootstrap";
+import { Meta, StoryObj } from '@storybook/react'
+import { Form } from 'react-bootstrap'
 
-import { PHDialog } from "./phDialog";
+import { PHDialog } from './phDialog'
 
 const meta = {
   title: 'Layout/phDialog',
@@ -10,26 +10,28 @@ const meta = {
   args: {
     header: <h1>Header</h1>,
     children: <p>Children</p>,
-    actions: [{ children: 'Action', onClick: () => { } }],
+    actions: [{ children: 'Action', onClick: () => {} }],
     isOpen: true,
     isCancelable: false,
     isNotModal: false,
   },
-} satisfies Meta<typeof PHDialog>;
+} satisfies Meta<typeof PHDialog>
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export default meta
+type Story = StoryObj<typeof meta>
 
-export const Component: Story = {  };
+export const Component: Story = {}
 
 export const WithForm: Story = {
   args: {
     isCancelable: true,
-    children: <Form>
-      <Form.Group>
-        <Form.Label>Label</Form.Label>
-        <Form.Control type='text' placeholder='Placeholder' />
-      </Form.Group>
-    </Form>,
+    children: (
+      <Form>
+        <Form.Group>
+          <Form.Label>Label</Form.Label>
+          <Form.Control type="text" placeholder="Placeholder" />
+        </Form.Group>
+      </Form>
+    ),
   },
-};
+}

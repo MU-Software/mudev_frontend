@@ -1,5 +1,5 @@
-import { Meta, StoryObj } from "@storybook/react";
-import { PHFormFoldableComponent } from "./phFormFold";
+import { Meta, StoryObj } from '@storybook/react'
+import { PHFormFoldableComponent } from './phFormFold'
 
 const meta = {
   title: 'Layout/phFormFold',
@@ -15,11 +15,11 @@ const meta = {
     submitBtnChildren: '제출',
   },
   argTypes: {
-    submitBtnChildren: {control: 'text'},
+    submitBtnChildren: { control: 'text' },
   },
-} satisfies Meta<typeof PHFormFoldableComponent>;
+} satisfies Meta<typeof PHFormFoldableComponent>
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export default meta
+type Story = StoryObj<typeof meta>
 
-export const Component: Story = {  };
+export const Component: Story = {}

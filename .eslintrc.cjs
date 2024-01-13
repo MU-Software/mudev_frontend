@@ -1,28 +1,47 @@
-/* eslint-env node */
-
 module.exports = {
   root: true,
   env: { browser: true, es2020: true },
   extends: [
     'eslint:recommended',
+    'plugin:import/recommended',
+    'plugin:import/typescript',
+    'plugin:@cspell/recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:@typescript-eslint/recommended-requiring-type-checking',
+    'plugin:react/recommended',
     'plugin:react-hooks/recommended',
-    'plugin:storybook/recommended',
+    'plugin:prettier/recommended',
   ],
+  ignorePatterns: ['dist', '.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: true,
-    tsconfigRootDir: __dirname,
-  },
   plugins: ['react-refresh'],
+  // settings: {
+  //   'import/resolver': {
+  //     typescript: {},
+  //   },
+  //   react: {
+  //     version: 'detect',
+  //   },
+  // },
   rules: {
-    'react-refresh/only-export-components': [
+    '@cspell/spellchecker': [
       'warn',
-      { allowConstantExport: true },
+      {
+        cspell: {
+          words: ['packlint', 'codecov', 'tsup'],
+        },
+      },
     ],
-    '@typescript-eslint/no-non-null-assertion': 'off',
+    'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+    'react/react-in-jsx-scope': 'off',
+    'react/prop-types': 'off',
+    // 'sort-imports': ['error', { ignoreDeclarationSort: true }],
+    // 'import/no-duplicates': ['error', { 'prefer-inline': true }],
+    // 'import/order': [
+    //   'error',
+    //   {
+    //     'newlines-between': 'never',
+    //     alphabetize: { order: 'asc', caseInsensitive: true },
+    //   },
+    // ],
   },
 }

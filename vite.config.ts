@@ -8,13 +8,13 @@ export default defineConfig({
   base: './',
   resolve: {
     alias: {
-      '@src': path.resolve(__dirname, './src'),
-      '@ui': path.resolve(__dirname, './src/ui'),
-      '@asset': path.resolve(__dirname, './src/asset'),
-      '@const': path.resolve(__dirname, './src/const'),
-      '@network': path.resolve(__dirname, './src/network'),
-      '@page': path.resolve(__dirname, './src/ui/page'),
-      '@util': path.resolve(__dirname, './src/util'),
+      '@local/src': path.resolve(__dirname, './src'),
+      '@local/ui': path.resolve(__dirname, './src/ui'),
+      '@local/asset': path.resolve(__dirname, './src/asset'),
+      '@local/const': path.resolve(__dirname, './src/const'),
+      '@local/network': path.resolve(__dirname, './src/network'),
+      '@local/page': path.resolve(__dirname, './src/ui/page'),
+      '@local/util': path.resolve(__dirname, './src/util'),
     },
   },
 })

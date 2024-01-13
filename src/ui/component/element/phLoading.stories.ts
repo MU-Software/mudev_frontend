@@ -1,5 +1,5 @@
-import { Meta, StoryObj } from "@storybook/react";
-import { PHLoading } from "./phLoading";
+import { Meta, StoryObj } from '@storybook/react'
+import { PHLoading } from './phLoading'
 
 const meta = {
   title: 'Component/phLoading',
@@ -11,13 +11,12 @@ const meta = {
     secondaryColor: 'transparent',
   },
   argTypes: {
-    primaryColor: {control: 'text'},
-    secondaryColor: {control: 'text'},
+    primaryColor: { control: 'text' },
+    secondaryColor: { control: 'text' },
   },
-} satisfies Meta<typeof PHLoading>;
+} satisfies Meta<typeof PHLoading>
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export default meta
+type Story = StoryObj<typeof meta>
 
-export const Component: Story = { };
-
+export const Component: Story = {}

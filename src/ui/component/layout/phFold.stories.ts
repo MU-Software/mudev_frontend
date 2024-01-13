@@ -1,5 +1,5 @@
-import { Meta, StoryObj } from "@storybook/react";
-import { PHFoldableComponent } from "./phFold";
+import { Meta, StoryObj } from '@storybook/react'
+import { PHFoldableComponent } from './phFold'
 
 const meta = {
   title: 'Layout/phFold',
@@ -11,9 +11,9 @@ const meta = {
     description: 'Content',
     children: 'Content',
   },
-} satisfies Meta<typeof PHFoldableComponent>;
+} satisfies Meta<typeof PHFoldableComponent>
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export default meta
+type Story = StoryObj<typeof meta>
 
-export const Component: Story = {  };
+export const Component: Story = {}

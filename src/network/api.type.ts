@@ -1,1 +1,1 @@
-export type FetchMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+export type FetchMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'

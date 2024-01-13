@@ -1,23 +1,33 @@
-import React from 'react';
-import { Button } from 'react-bootstrap';
+import React from 'react'
+import { Button } from 'react-bootstrap'
 
-import './phButton.css';
+import './phButton.css'
 
 // From react-bootstrap
-type Variant = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light';
-export type ButtonVariant = Variant | 'link' | 'outline-primary' | 'outline-secondary' | 'outline-success' | 'outline-danger' | 'outline-warning' | 'outline-info' | 'outline-dark' | 'outline-light';
+type Variant = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light'
+export type ButtonVariant =
+  | Variant
+  | 'link'
+  | 'outline-primary'
+  | 'outline-secondary'
+  | 'outline-success'
+  | 'outline-danger'
+  | 'outline-warning'
+  | 'outline-info'
+  | 'outline-dark'
+  | 'outline-light'
 
 interface PHButtonProps {
-  variant?: ButtonVariant;
-  disabled?: boolean;
-  buttonType?: 'button' | 'submit' | 'reset';
-  size?: 'extra-sm' | 'sm' | 'lg';
-  style?: React.CSSProperties;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  width?: string;
-  height?: string;
-  smaller?: boolean;
-  children?: React.ReactNode;
+  variant?: ButtonVariant
+  disabled?: boolean
+  buttonType?: 'button' | 'submit' | 'reset'
+  size?: 'extra-sm' | 'sm' | 'lg'
+  style?: React.CSSProperties
+  onClick?: React.MouseEventHandler<HTMLButtonElement>
+  width?: string
+  height?: string
+  smaller?: boolean
+  children?: React.ReactNode
 }
 
 const PHButton: React.FC<PHButtonProps> = ({
@@ -32,27 +42,29 @@ const PHButton: React.FC<PHButtonProps> = ({
 }) => {
   const commonButtonStyle = {
     margin: '0.25rem',
-  };
+  }
   const extraSmallButtonStyle = {
     ...commonButtonStyle,
     padding: '0rem 0.25rem',
     fontSize: '0.75rem',
-  };
+  }
 
-  return <Button
-    disabled={disabled ?? undefined}
-    onClick={onClick ?? undefined}
-    size={(size === 'extra-sm' ? 'sm' : size) ?? undefined}
-    type={buttonType ?? undefined}
-    variant={variant ?? undefined}
-    style={{
-      ...((smaller || size === 'extra-sm') ? extraSmallButtonStyle : commonButtonStyle),
-      ...(style || {})
-    }}
-  >
-    {children}
-  </Button>;
-};
+  return (
+    <Button
+      disabled={disabled ?? undefined}
+      onClick={onClick ?? undefined}
+      size={(size === 'extra-sm' ? 'sm' : size) ?? undefined}
+      type={buttonType ?? undefined}
+      variant={variant ?? undefined}
+      style={{
+        ...(smaller || size === 'extra-sm' ? extraSmallButtonStyle : commonButtonStyle),
+        ...(style || {}),
+      }}
+    >
+      {children}
+    </Button>
+  )
+}
 
 // export const PHSpinnerButton = (inProps) => {
 //   let props = Object.assign({}, inProps, {});
@@ -71,7 +83,6 @@ const PHButton: React.FC<PHButtonProps> = ({
 //   if (React.Children.count(btnChildElement) > 1)
 //     throw Error('PHSpinnerButton accepts only one element for the children.');
 //   delete (props.children);
-
 
 //   // If btnChild is not an DOMElement or reactElement, then wrap it with plain div.
 //   if (!(typeof (btnChildElement) == 'object' && (btnChildElement.$$typeof === REACT_ELEMENT_TYPE)))
@@ -111,4 +122,4 @@ const PHButton: React.FC<PHButtonProps> = ({
 //   </PHButton>
 // }
 
-export { PHButton };
+export { PHButton }
