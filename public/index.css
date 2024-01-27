@@ -2,10 +2,10 @@ body,
 html,
 main {
   min-height: -webkit-fill-available;
-  min-height: 100vh;
+  min-height: 100svh;
   max-height: -webkit-fill-available;
-  max-height: 100vh;
-  height: 100vh;
+  max-height: 100svh;
+  height: 100svh;
 
   max-width: 100vw;
   overflow-x: hidden;
@@ -13,9 +13,9 @@ main {
 
 main {
   position: fixed;
-  height: 100vh;
-  min-height: 100vh;
-  max-height: 100vh;
+  height: 100svh;
+  min-height: 100svh;
+  max-height: 100svh;
   overflow-x: hidden;
   overflow-y: hidden;
 }
@@ -25,7 +25,7 @@ noscript, .fullScreenAlert {
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100svh;
 
   display: flex;
   flex-direction: column;
