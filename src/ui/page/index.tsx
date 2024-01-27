@@ -1,7 +1,6 @@
 import { mdiAccountCircle, mdiAccountPlusOutline, mdiHome } from '@mdi/js'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import React from 'react'
+import * as React from 'react'
 import { BrowserRouter } from 'react-router-dom'
 
 import { DummySidebar, Sidebar } from '@local/ui/component/bar/sidebar'
@@ -16,6 +15,12 @@ import { SignInPage } from './internal/signin'
 import { SignUpPage } from './internal/signup'
 
 const queryClient = new QueryClient({ defaultOptions: { queries: { retry: 3 } } })
+
+const ReactQueryDevtools = React.lazy(() =>
+  !import.meta.env.PROD
+    ? import('@tanstack/react-query-devtools').then((module) => ({ default: module.ReactQueryDevtools }))
+    : Promise.resolve({ default: () => null })
+)
 
 const ROUTE_DEFINITIONS: RouteDefinitionList = new RouteDefinitionList([
   new RouteDefinition('home', 'MUsoftware', '홈', '/', <HomeMain />, mdiHome),
@@ -45,7 +50,7 @@ const ROUTE_DEFINITIONS: RouteDefinitionList = new RouteDefinitionList([
 export const Page: React.FC<{ className?: string }> = ({ className }) => (
   <div className={className}>
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {<ReactQueryDevtools initialIsOpen={false} />}
       <BrowserRouter>
         <Topbar routeData={ROUTE_DEFINITIONS.topbarRoutes} />
         <Sidebar sidebarItems={ROUTE_DEFINITIONS.sidebarItems} />
