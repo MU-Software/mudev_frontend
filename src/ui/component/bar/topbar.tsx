@@ -4,9 +4,12 @@ import { mdiAccountCircle } from '@mdi/js'
 import Icon from '@mdi/react'
 import React, { useState } from 'react'
 import { Form, NavDropdown, Navbar } from 'react-bootstrap'
-import { useLocation } from 'react-router-dom'
+import { ErrorBoundary } from 'react-error-boundary'
+import { useLocation, useNavigate } from 'react-router-dom'
 
-import TopBarLogo from '@local/asset/image/logo/mu_logo.png' // TODO: FIXME: Use SVG instead of PNG
+// TODO: FIXME: Use SVG instead of PNG
+import TopBarLogo from '@local/asset/image/logo/mu_logo.png'
+import { fetchMyInfo } from '@local/network/route/user'
 import {
   darkThemeTypeCollection,
   getCurrentTheme,
@@ -14,6 +17,8 @@ import {
   toggleDeepDark,
   toggleTheme,
 } from '@local/ui/util/dark_mode'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { PHLoading } from '../element/phLoading'
 
 class TopbarRouteData {
   constructor(
@@ -23,53 +28,30 @@ class TopbarRouteData {
 }
 
 const AccountInfo: () => React.ReactNode = () => {
+  const navigate = useNavigate()
+  const goToSignOut = () => navigate('/account/signout')
+  const goToSetting = () => navigate('/account/info/me')
+  const query = useSuspenseQuery({ queryKey: ['topbar', 'account', 'info'], queryFn: fetchMyInfo, retry: false })
+
   return (
     <>
-      {
-        // accountInfo.isFetching
-        //   ? <div className='navBarDropdownAccountInfoLoadingContainer'>
-        //     <Spinner animation='border' role='status' size='sm'>
-        //       <span className='visually-hidden'>Loading...</span>
-        //     </Spinner>
-        //     <div className='navBarDropdownAccountInfoLoadingText'>
-        //       계정 정보 불러오는 중...
-        //     </div>
-        //   </div>
-        //   : accountInfo.isSignedIn ? `안녕하세요, ${accountInfo.nick}님!` : '로그인을 해 주세요!'
-      }
+      <NavDropdown.ItemText className="navBarDropdownItem">{query.data.nickname}</NavDropdown.ItemText>
+      <NavDropdown.Divider className="navBarDropdownItem" />
+      <NavDropdown.Item className="navBarDropdownItem" onClick={goToSetting}>
+        계정 설정
+      </NavDropdown.Item>
+      <NavDropdown.Item className="navBarDropdownItem" onClick={goToSignOut}>
+        로그아웃
+      </NavDropdown.Item>
     </>
   )
 }
 
-const AccountSettingButton: () => React.ReactNode = () => {
-  // const navigate = useNavigate();
-
-  // return (accountInfo.isFetching || !accountInfo.isSignedIn) ? <></> : <>
-  //   <NavDropdown.Divider className='navBarDropdownItem' />
-  //   <NavDropdown.Item
-  //     className='navBarDropdownItem'
-  //     href='#'
-  //     onClick={() => navigate('/account/setting')}>
-  //     계정 설정
-  //   </NavDropdown.Item>
-  // </>;
-  return <></>
-}
-
-const AccountSignInOutButton: () => React.ReactNode = () => {
-  // const navigate = useNavigate();
-  // const goToSignIn = () => navigate('/account/signin');
-  // const goToSignOut = () => navigate('/account/signout');
-
-  // return <NavDropdown.Item
-  //   className='navBarDropdownItem'
-  //   href='#'
-  //   onClick={accountInfo.isSignedIn ? goToSignOut : goToSignIn}
-  // >{accountInfo.isSignedIn ? '로그아웃' : '로그인'}</NavDropdown.Item>
-  return <></>
-}
-
 const NavBarDropdown: () => React.ReactNode = () => {
+  const navigate = useNavigate()
+  const goToSignIn = () => navigate('/account/signin')
+  const goToSignUp = () => navigate('/account/signup')
+
   const [topBarState, setTopBarState] = useState({
     shouldDropdownShow: false,
     theme: getCurrentTheme(),
@@ -78,10 +60,7 @@ const NavBarDropdown: () => React.ReactNode = () => {
 
   const toggleDropdownShown = () =>
     setTopBarState({ ...topBarState, shouldDropdownShow: !topBarState.shouldDropdownShow })
-  const toggleDarkMode = () => {
-    setTopBarState({ ...topBarState, theme: toggleTheme() })
-    return true
-  }
+  const toggleDarkMode = () => setTopBarState({ ...topBarState, theme: toggleTheme() })
   const toggleDeepDarkMode = () => {
     const isDeepDarkEnabled = toggleDeepDark()
     setTopBarState({
@@ -91,8 +70,15 @@ const NavBarDropdown: () => React.ReactNode = () => {
     })
     return true
   }
-
   const isThemeDark: boolean = darkThemeTypeCollection.includes(topBarState.theme)
+
+  const loadingElement = (
+    <NavDropdown.Item className="navBarDropdownItem">
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <PHLoading primaryColor="#000000" />
+      </div>
+    </NavDropdown.Item>
+  )
 
   return (
     <NavDropdown
@@ -102,19 +88,29 @@ const NavBarDropdown: () => React.ReactNode = () => {
       title={<Icon path={mdiAccountCircle} size="24pt" />}
       className="navBarDropdown"
     >
-      <NavDropdown.Header className="navBarDropdownItem">
-        <AccountInfo />
-      </NavDropdown.Header>
-      <AccountSettingButton />
-      <AccountSignInOutButton />
-
+      <ErrorBoundary
+        fallback={
+          <>
+            <NavDropdown.Item className="navBarDropdownItem" href="#" onClick={goToSignIn}>
+              로그인
+            </NavDropdown.Item>
+            <NavDropdown.Item className="navBarDropdownItem" href="#" onClick={goToSignUp}>
+              회원가입
+            </NavDropdown.Item>
+          </>
+        }
+      >
+        <React.Suspense fallback={loadingElement}>
+          <AccountInfo />
+        </React.Suspense>
+      </ErrorBoundary>
       <NavDropdown.Divider className="navBarDropdownItem" />
-      <NavDropdown.Item as="div" className="navBarDropdownItem">
-        <Form.Switch label="다크모드 설정" checked={isThemeDark} onChange={toggleDarkMode} />
+      <NavDropdown.ItemText as="div" className="navBarDropdownItem">
+        <Form.Switch label="다크모드" checked={isThemeDark} onChange={toggleDarkMode} />
         {isThemeDark && (
           <Form.Switch label="더 어둡게!" checked={topBarState.isDeepDarkEnabled} onChange={toggleDeepDarkMode} />
         )}
-      </NavDropdown.Item>
+      </NavDropdown.ItemText>
     </NavDropdown>
   )
 }
