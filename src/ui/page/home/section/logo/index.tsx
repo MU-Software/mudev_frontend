@@ -23,7 +23,6 @@ export const HomeLogoSection: React.FC = () => (
         <h1 className="targetTextLogo">
           <div className="targetTextLogoKor">이준영&nbsp;|&nbsp;</div>
           <img className="targetTextLogoEng" src={MU8BitLogo} alt="MUsoftware" />
-          {'    '}
         </h1>
       </div>
     </div>

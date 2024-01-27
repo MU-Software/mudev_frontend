@@ -33,7 +33,7 @@
 .targetImgLogo {
   width: 25em;
   height: auto;
-  margin: 1em;
+  margin: 1rem 0;
   animation: updown 4s infinite;
   animation-delay: 2s;
   -webkit-filter: var(--mu-text-img-shadow);
@@ -47,7 +47,7 @@
   justify-content: center;
   align-items: center;
 
-  margin: 1em;
+  margin: 1rem 0;
 }
 
 .targetTextLogo {

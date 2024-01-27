@@ -12,8 +12,6 @@ const phPageContainerStyle = css({
 })
 
 const phPageStyle = css({
-  position: 'absolute',
-
   minHeight: 'calc(100% - var(--topbar-height))',
   height: 'calc(100% - var(--topbar-height))',
   maxHeight: 'calc(100% - var(--topbar-height))',
@@ -27,8 +25,8 @@ const phPageStyle = css({
     'max-width var(--transition-duration)',
     'left var(--transition-duration)',
   ],
-  left: 'var(--sidebar-width)',
-  top: 'var(--topbar-height)',
+  marginLeft: 'var(--sidebar-width)',
+  marginTop: 'var(--topbar-height)',
   [DUMMY_SIDEBAR_HIDE_MEDIA_QUERY]: {
     minWidth: 'calc(100% - var(--sidebar-width))',
     width: 'calc(100% - var(--sidebar-width))',
@@ -38,7 +36,7 @@ const phPageStyle = css({
     minWidth: '100%',
     width: '100%',
     maxWidth: '100%',
-    left: 0,
+    marginLeft: 0,
   },
 })
 
