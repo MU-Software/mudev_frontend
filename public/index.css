@@ -1,9 +1,7 @@
 body,
 html,
 main {
-  min-height: -webkit-fill-available;
   min-height: 100svh;
-  max-height: -webkit-fill-available;
   max-height: 100svh;
   height: 100svh;
 
