@@ -16,7 +16,7 @@ export const PHFormSelect: React.FC<{
   value?: string
   inputRef?: React.RefObject<HTMLSelectElement>
 }> = ({ disabled, selectableValues, style, value, inputRef, onChange }) => {
-  const options = Object.entries(selectableValues).map(([key, value], index) => (
+  const options = Object.entries(selectableValues).map(([, value], index) => (
     <option key={`select-option-${index}`} value={value.value} disabled={value.disabled}>
       {value.label}
     </option>

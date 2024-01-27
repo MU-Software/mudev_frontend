@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form } from 'react-bootstrap'
 
-import { FetchMethod } from '@local/network/api.type'
+import { FetchMethod } from '@local/network/client'
 import { PHButton } from '@local/ui/component/element/phButton'
 import { PHDivider } from '@local/ui/component/element/phDivider'
 import { PHLoading } from '@local/ui/component/element/phLoading'

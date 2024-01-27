@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Form } from 'react-bootstrap'
 import { isNil } from 'remeda'
 
-import { calcDDay } from 'util/util'
+import { calcDDay } from '@local/util/date_util'
 
 const flexStyle: React.CSSProperties = {
   margin: '0.25rem 0',
