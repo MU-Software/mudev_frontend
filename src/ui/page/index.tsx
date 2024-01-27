@@ -1,25 +1,45 @@
-import { mdiHome, mdiPlayCircleOutline, mdiPost } from '@mdi/js'
+import { mdiAccountCircle, mdiAccountPlusOutline, mdiHome } from '@mdi/js'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import React from 'react'
-import { QueryClient, QueryClientProvider } from 'react-query'
-import { ReactQueryDevtools } from 'react-query/devtools'
 import { BrowserRouter } from 'react-router-dom'
 
 import { DummySidebar, Sidebar } from '@local/ui/component/bar/sidebar'
 import { Topbar } from '@local/ui/component/bar/topbar'
 import { RouteDefinition, RouteDefinitionList } from '@local/ui/util/route_manager'
 
-import { BlogMain } from '@local/page/blog'
+// import { BlogMain } from '@local/page/blog'
 import { HomeMain } from '@local/page/home'
-import { PlayCoMain } from '@local/page/playco'
+// import { PlayCoMain } from '@local/page/playco'
 import { NotFoundMain } from './internal/notfound'
+import { SignInPage } from './internal/signin'
+import { SignUpPage } from './internal/signup'
 
-const queryClient = new QueryClient({ defaultOptions: { queries: { retry: 3, suspense: true } } })
+const queryClient = new QueryClient({ defaultOptions: { queries: { retry: 3 } } })
 
 const ROUTE_DEFINITIONS: RouteDefinitionList = new RouteDefinitionList([
   new RouteDefinition('home', 'MUsoftware', '홈', '/', <HomeMain />, mdiHome),
-  new RouteDefinition('playco', 'PlayCo', 'PlayCo', '/playco', <PlayCoMain />, mdiPlayCircleOutline),
-  new RouteDefinition('blog', '블로그', '블로그', '/blog', <BlogMain />, mdiPost, true, false),
+  // new RouteDefinition('playco', 'PlayCo', 'PlayCo', '/playco', <PlayCoMain />, mdiPlayCircleOutline),
+  // new RouteDefinition('blog', '블로그', '블로그', '/blog', <BlogMain />, mdiPost, true, false),
   new RouteDefinition('not_found', '', '', '*', <NotFoundMain />, '', false),
+  new RouteDefinition(
+    '/account/signin',
+    '로그인',
+    '로그인',
+    '/account/signin',
+    <SignInPage />,
+    mdiAccountCircle,
+    false
+  ),
+  new RouteDefinition(
+    '/account/signup',
+    '회원가입',
+    '회원가입',
+    '/account/signup',
+    <SignUpPage />,
+    mdiAccountPlusOutline,
+    false
+  ),
 ])
 
 export const Page: React.FC<{ className?: string }> = ({ className }) => (
