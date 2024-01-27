@@ -1,3 +1,5 @@
+import * as R from 'remeda'
+
 export const wildcardCheck: (i: string, m: string) => boolean = (i, m) => {
   const regExpEscape = (s: string) => s.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&')
 
@@ -23,6 +25,20 @@ export const _f = (str: string, ...val: string[]) => {
     str = str.replace(`{${index}}`, val[index])
   }
   return str
+}
+
+type NotEmptyString = string & { __brand: 'NonEmptyString' }
+export function isFilledString(str: unknown): str is NotEmptyString {
+  return R.isString(str) && !R.isEmpty(str)
+}
+
+export const isJSONParsable = (str: string) => {
+  try {
+    JSON.parse(str)
+    return true
+  } catch (e) {
+    return false
+  }
 }
 
 export const getAlreadyUsedFieldName = (field: string) => {
