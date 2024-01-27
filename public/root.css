@@ -156,14 +156,14 @@
   font-family: 'neodgm';
   font-style: normal;
   font-weight: normal;
-  src: url('/src/asset/font/neodgm_pro.woff2') format('woff2');
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/NeoDunggeunmoPro-Regular.woff2') format('woff2');
 }
 
 @font-face {
   font-family: 'leferi-point-black';
   font-style: normal;
   font-weight: 900;
-  src: url('/src/asset/font/LeferiPointBlack.woff2') format('woff2');
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/LeferiPoint-BlackA.woff') format('woff');
 }
 
 * {
