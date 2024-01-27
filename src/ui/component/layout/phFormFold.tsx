@@ -2,15 +2,15 @@ import React from 'react'
 import { Form } from 'react-bootstrap'
 
 import { FetchMethod } from '@local/network/api.type'
-import { PHDivider } from '@local/ui/component/element/phDivider'
 import { PHButton } from '@local/ui/component/element/phButton'
+import { PHDivider } from '@local/ui/component/element/phDivider'
+import { PHLoading } from '@local/ui/component/element/phLoading'
 import {
   PHFoldableBaseStateType,
   PHFoldableComponent,
   PHFoldablePropsType,
   PH_FOLDABLE_BASE_STATE,
 } from '@local/ui/component/layout/phFold'
-import { PHLoading } from '../element/phLoading'
 
 export type PHFormFoldableBasePropsType = PHFoldablePropsType & {
   apiRoute: string
@@ -19,7 +19,7 @@ export type PHFormFoldableBasePropsType = PHFoldablePropsType & {
   submitBtnChildren?: React.ReactNode
 }
 
-export type PHFormFoldableBaseStateType = PHFoldableBaseStateType & {}
+export type PHFormFoldableBaseStateType = PHFoldableBaseStateType
 export const PH_FORM_FOLDABLE_BASE_STATE: PHFormFoldableBaseStateType = {
   ...PH_FOLDABLE_BASE_STATE,
   ...({} as PHFormFoldableBaseStateType),
