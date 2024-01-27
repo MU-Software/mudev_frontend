@@ -9,12 +9,21 @@ export const lightThemeTypeCollection: ThemeType[] = [Light]
 export const darkThemeTypeCollection: ThemeType[] = [Dark, DeepDark]
 export const themeTypeCollection: ThemeType[] = [Dark, Light, DeepDark]
 
+const safeAreaColor: { [k in ThemeType]: string } = {
+  [Light]: '#fefefe',
+  [Dark]: '#036564',
+  [DeepDark]: '#0a0a0a',
+}
+
 export const getCurrentTheme: () => ThemeType = () => {
   let colorTheme = <ThemeType | undefined>localStorage.getItem('color-theme')
   if (isNil(colorTheme) || !themeTypeCollection.includes(colorTheme))
     colorTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? Dark : Light
 
   document.documentElement.setAttribute('color-theme', colorTheme)
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', safeAreaColor[colorTheme])
+  document.querySelector('meta[name="theme-color"][media*="dark"]')?.setAttribute('content', safeAreaColor[colorTheme])
+  document.querySelector('meta[name="theme-color"][media*="light"]')?.setAttribute('content', safeAreaColor[colorTheme])
   return colorTheme
 }
 

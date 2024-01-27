@@ -1,5 +1,5 @@
 :root {
-  --background-color: rgba(0, 0, 0, .05);
+  --background-color: #fefefe;
   --background: var(--background-color);
 
   --color-transparent: rgba(0, 0, 0, 0);
@@ -83,8 +83,8 @@
 }
 
 :root[color-theme='dark'] {  /* also known as dusk */
-  --background-color: #033649;
-  --background: #033649;
+  --background-color: #036564;
+  --background: #036564;
   --background: -webkit-linear-gradient(#036564, #033649);
   --background: linear-gradient(#036564, #033649);
 
