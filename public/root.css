@@ -170,6 +170,17 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+
+  -webkit-user-drag: none;
+  /* Safari */
+  -khtml-user-drag: none;
+  /* Konqueror HTML */
+  -moz-user-drag: none;
+  /* Old versions of Firefox */
+  -o-user-drag: none;
+  /* Old versions of Opera */
+  user-drag: none;
+  /* Non-prefixed version */
 }
 
 body, html, main {
