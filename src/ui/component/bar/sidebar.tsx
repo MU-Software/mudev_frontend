@@ -41,7 +41,7 @@ const sidebarContainerPullerStyle = css({
   padding: '0.1rem',
 
   right: 'calc(var(--sidebar-puller-width) * -1)',
-  top: 'calc((100% - var(--sidebar-puller-height)) / 2)',
+  top: 'calc(((100% - var(--sidebar-puller-height)) / 2) - var(--topbar-height))',
 
   fontSize: '0.75em',
 
