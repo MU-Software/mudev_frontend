@@ -1,5 +1,5 @@
 import { wrap } from '@suspensive/react'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import * as React from 'react'
 import { Form } from 'react-bootstrap'
 import { Navigate, useNavigate } from 'react-router-dom'
@@ -10,8 +10,13 @@ import { PHLoadingPage } from '@local/ui/component/page/phLoadingPage'
 
 const SignIn = () => {
   const formRef = React.useRef<HTMLFormElement>(null)
-  const useGoToHome = () => useNavigate()('/')
-  const mutation = useMutation({ mutationFn: signIn, mutationKey: ['user', 'signIn'], onSuccess: useGoToHome })
+  const queryClient = useQueryClient()
+  const navigate = useNavigate()
+  const goToHome = () => {
+    navigate('/')
+    queryClient.resetQueries({ queryKey: ['user'] })
+  }
+  const mutation = useMutation({ mutationFn: signIn, mutationKey: ['user', 'signIn'], onSuccess: goToHome })
   const query = useIsSignedIn()
   return (
     <PHPage>
@@ -32,7 +37,7 @@ const SignIn = () => {
           <Form.Label>비밀번호</Form.Label>
           <Form.Control required name="password" disabled={mutation.isPending} type="password" />
         </Form.Group>
-        <Form.Control type="submit" value="로그인" />
+        <Form.Control type="submit" value="로그인" disabled={mutation.isPending} />
       </Form>
     </PHPage>
   )
