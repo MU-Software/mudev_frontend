@@ -2,13 +2,15 @@ import './topbar.css'
 
 import { mdiAccountCircle } from '@mdi/js'
 import Icon from '@mdi/react'
+import { wrap } from '@suspensive/react'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import React, { useState } from 'react'
 import { Form, NavDropdown, Navbar } from 'react-bootstrap'
-import { ErrorBoundary } from 'react-error-boundary'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 // TODO: FIXME: Use SVG instead of PNG
 import TopBarLogo from '@local/asset/image/logo/mu_logo.png'
+import { useIsSignedIn } from '@local/network/client'
 import { fetchMyInfo } from '@local/network/route/user'
 import {
   darkThemeTypeCollection,
@@ -17,7 +19,6 @@ import {
   toggleDeepDark,
   toggleTheme,
 } from '@local/ui/util/dark_mode'
-import { useSuspenseQuery } from '@tanstack/react-query'
 import { PHLoading } from '../element/phLoading'
 
 class TopbarRouteData {
@@ -27,31 +28,55 @@ class TopbarRouteData {
   ) {}
 }
 
-const AccountInfo: () => React.ReactNode = () => {
+const AccountInfoFallback: React.FC = () => {
   const navigate = useNavigate()
-  const goToSignOut = () => navigate('/account/signout')
-  const goToSetting = () => navigate('/account/info/me')
-  const query = useSuspenseQuery({ queryKey: ['topbar', 'account', 'info'], queryFn: fetchMyInfo, retry: false })
-
   return (
     <>
-      <NavDropdown.ItemText className="navBarDropdownItem">{query.data.nickname}</NavDropdown.ItemText>
-      <NavDropdown.Divider className="navBarDropdownItem" />
-      <NavDropdown.Item className="navBarDropdownItem" onClick={goToSetting}>
-        계정 설정
+      <NavDropdown.Item className="navBarDropdownItem" href="#" onClick={() => navigate('/account/signin')}>
+        로그인
       </NavDropdown.Item>
-      <NavDropdown.Item className="navBarDropdownItem" onClick={goToSignOut}>
-        로그아웃
+      <NavDropdown.Item className="navBarDropdownItem" href="#" onClick={() => navigate('/account/signup')}>
+        회원가입
       </NavDropdown.Item>
     </>
   )
 }
 
-const NavBarDropdown: () => React.ReactNode = () => {
-  const navigate = useNavigate()
-  const goToSignIn = () => navigate('/account/signin')
-  const goToSignUp = () => navigate('/account/signup')
+const AccountInfoLoading: React.FC = () => (
+  <NavDropdown.Item className="navBarDropdownItem">
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <PHLoading primaryColor="#000000" />
+    </div>
+  </NavDropdown.Item>
+)
 
+const AccountInfoSignedIn: React.FC = wrap.Suspense({ fallback: <AccountInfoLoading /> }).on(() => {
+  const navigate = useNavigate()
+  const query = useSuspenseQuery({ queryKey: ['user', 'info'], queryFn: fetchMyInfo, retry: 1 })
+
+  return (
+    <>
+      <NavDropdown.ItemText className="navBarDropdownItem">{query.data.nickname}</NavDropdown.ItemText>
+      <NavDropdown.Divider className="navBarDropdownItem" />
+      <NavDropdown.Item className="navBarDropdownItem" onClick={() => navigate('/account/info/me')}>
+        계정 설정
+      </NavDropdown.Item>
+      <NavDropdown.Item className="navBarDropdownItem" onClick={() => navigate('/account/signout')}>
+        로그아웃
+      </NavDropdown.Item>
+    </>
+  )
+})
+
+const AccountInfo: React.FC = wrap
+  .ErrorBoundaryGroup({ blockOutside: true })
+  .ErrorBoundary({ fallback: AccountInfoFallback })
+  .Suspense({ fallback: <AccountInfoLoading /> })
+  .on(() => {
+    return useIsSignedIn().data ? <AccountInfoSignedIn /> : <AccountInfoFallback />
+  })
+
+const NavBarDropdown: React.FC = () => {
   const [topBarState, setTopBarState] = useState({
     shouldDropdownShow: false,
     theme: getCurrentTheme(),
@@ -72,14 +97,6 @@ const NavBarDropdown: () => React.ReactNode = () => {
   }
   const isThemeDark: boolean = darkThemeTypeCollection.includes(topBarState.theme)
 
-  const loadingElement = (
-    <NavDropdown.Item className="navBarDropdownItem">
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <PHLoading primaryColor="#000000" />
-      </div>
-    </NavDropdown.Item>
-  )
-
   return (
     <NavDropdown
       align="end"
@@ -88,22 +105,7 @@ const NavBarDropdown: () => React.ReactNode = () => {
       title={<Icon path={mdiAccountCircle} size="24pt" />}
       className="navBarDropdown"
     >
-      <ErrorBoundary
-        fallback={
-          <>
-            <NavDropdown.Item className="navBarDropdownItem" href="#" onClick={goToSignIn}>
-              로그인
-            </NavDropdown.Item>
-            <NavDropdown.Item className="navBarDropdownItem" href="#" onClick={goToSignUp}>
-              회원가입
-            </NavDropdown.Item>
-          </>
-        }
-      >
-        <React.Suspense fallback={loadingElement}>
-          <AccountInfo />
-        </React.Suspense>
-      </ErrorBoundary>
+      <AccountInfo />
       <NavDropdown.Divider className="navBarDropdownItem" />
       <NavDropdown.ItemText as="div" className="navBarDropdownItem">
         <Form.Switch label="다크모드" checked={isThemeDark} onChange={toggleDarkMode} />
