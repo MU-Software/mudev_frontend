@@ -1,9 +1,9 @@
+import { useSuspenseQuery } from '@tanstack/react-query'
 import * as jose from 'jose'
 import * as R from 'remeda'
 
 import { SignUpRequest, User } from '@local/network/schema/user.d'
 import { isFilledString, isJSONParsable } from '@local/util/string_util'
-import { useSuspenseQuery } from '@tanstack/react-query'
 
 export type FetchMethod = 'HEAD' | 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
 
@@ -94,7 +94,7 @@ const parseToken: (tokenStr?: string | null) => Promise<Token | undefined> = asy
   try {
     token = jose.decodeJwt(tokenStr)
     if (!isObjValidAccessToken(token)) return undefined
-    await checkAccessToken(tokenStr)
+    // await checkAccessToken(tokenStr)
     return token
   } catch (e) {
     return undefined
@@ -128,12 +128,13 @@ const setAccessTokenToSessionStorage: (token: string) => void = (token) => sessi
 const getAccessTokenFromSessionStorage: () => string | null | undefined = () => sessionStorage.getItem('access_token')
 
 const retrieveTokenStr: () => Promise<string | undefined> = async () => {
-  await retrieveCSRFToken()
   const tokenStr = getAccessTokenFromSessionStorage()
   if (await parseToken(tokenStr)) return tokenStr as string
+  if (R.isString(tokenStr) && R.isEmpty(tokenStr)) return undefined
 
   // If local token is expired or not exist, reset session storage and retrieve new token
   setAccessTokenToSessionStorage('')
+  await retrieveCSRFToken()
   const retrievedTokenStr = await retrieveAccessTokenStr()
   const retrievedToken = parseToken(retrievedTokenStr)
   if (!retrievedTokenStr || !retrievedToken) return undefined
@@ -142,7 +143,12 @@ const retrieveTokenStr: () => Promise<string | undefined> = async () => {
   return retrievedTokenStr
 }
 
+export const isSignedIn = async () => isFilledString(await retrieveTokenStr())
+
+export const useIsSignedIn = () => useSuspenseQuery({ queryKey: ['user', 'isSignedIn'], queryFn: isSignedIn })
+
 export const signIn = async (formData: FormData) => {
+  await retrieveCSRFToken()
   const response = await MURequest({
     route: '/user/signin/',
     method: 'POST',
@@ -166,15 +172,6 @@ export const signUp = async (newUserInfo: SignUpRequest) => {
   return JSON.parse(response.body) as User
 }
 
-export const signOut = async () => {
-  setAccessTokenToSessionStorage('')
-  await MURequest({ route: '/user/signout/', method: 'DELETE', requireAuth: true, checkStatus: true })
-}
-
-export const isSignedIn = async () => isFilledString(await retrieveTokenStr())
-
-export const useIsSignedIn = () => useSuspenseQuery({ queryKey: ['user', 'isSignedIn'], queryFn: isSignedIn })
-
 export const fetchMU = async (option: MURequestOption) => {
   const headers = new Headers(option.headers)
   if (option.requireAuth) {
@@ -184,4 +181,13 @@ export const fetchMU = async (option: MURequestOption) => {
   }
 
   return await MURequest({ ...option, headers })
+}
+
+export const signOut = async () => {
+  try {
+    await fetchMU({ route: '/user/signout/', method: 'DELETE', requireAuth: true, checkStatus: true })
+  } catch (e) {
+    /* Do nothing */
+  }
+  setAccessTokenToSessionStorage('')
 }
