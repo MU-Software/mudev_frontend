@@ -1,26 +1,31 @@
-import * as React from 'react'
-
-import { signUp } from '@local/network/client'
-import { PHPage } from '@local/ui/component/layout/phPage'
-import { getFormValue } from '@local/util/input_util'
+import { wrap } from '@suspensive/react'
 import { useMutation } from '@tanstack/react-query'
+import * as React from 'react'
 import { Form } from 'react-bootstrap'
+import { Navigate, useNavigate } from 'react-router-dom'
 
-export const SignUpPage = () => {
+import { signUp, useIsSignedIn } from '@local/network/client'
+import { PHPage } from '@local/ui/component/layout/phPage'
+import { PHLoadingPage } from '@local/ui/component/page/phLoadingPage'
+import { getFormValue } from '@local/util/input_util'
+
+const SignUp = () => {
   const formRef = React.useRef<HTMLFormElement>(null)
-  const mutation = useMutation({ mutationFn: signUp, mutationKey: ['user', 'signUp'] })
-
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    event.stopPropagation()
-
-    if (!formRef.current) return
-    mutation.mutate(getFormValue({ form: formRef.current, fieldToExcludeWhenFalse: ['description'] }))
-  }
-
+  const useGoToLogin = () => useNavigate()('/account/signin')
+  const mutation = useMutation({ mutationFn: signUp, mutationKey: ['user', 'signUp'], onSuccess: useGoToLogin })
+  const query = useIsSignedIn()
   return (
     <PHPage>
-      <Form ref={formRef} onSubmit={onSubmit}>
+      {query.data && <Navigate to="/" />}
+      <Form
+        ref={formRef}
+        onSubmit={(event) => {
+          event.preventDefault()
+          event.stopPropagation()
+          if (formRef.current)
+            mutation.mutate(getFormValue({ form: formRef.current, fieldToExcludeWhenFalse: ['description'] }))
+        }}
+      >
         <Form.Group>
           <Form.Label>이메일</Form.Label>
           <Form.Control required name="email" disabled={mutation.isPending} type="email" />
@@ -50,3 +55,7 @@ export const SignUpPage = () => {
     </PHPage>
   )
 }
+
+export const SignUpPage = wrap
+  .Suspense({ fallback: <PHLoadingPage description="계정 상태를 확인하는 중이에요..." /> })
+  .on(SignUp)

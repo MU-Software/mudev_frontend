@@ -1,27 +1,31 @@
-import * as React from 'react'
-
-import { signIn } from '@local/network/client'
-import { PHPage } from '@local/ui/component/layout/phPage'
+import { wrap } from '@suspensive/react'
 import { useMutation } from '@tanstack/react-query'
+import * as React from 'react'
 import { Form } from 'react-bootstrap'
+import { Navigate, useNavigate } from 'react-router-dom'
 
-export const SignInPage = () => {
+import { signIn, useIsSignedIn } from '@local/network/client'
+import { PHPage } from '@local/ui/component/layout/phPage'
+import { PHLoadingPage } from '@local/ui/component/page/phLoadingPage'
+
+const SignIn = () => {
   const formRef = React.useRef<HTMLFormElement>(null)
-  const mutation = useMutation({ mutationFn: signIn, mutationKey: ['user', 'signIn'] })
-
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    event.stopPropagation()
-
-    if (!formRef.current) return
-    mutation.mutate(new FormData(formRef.current))
-  }
-
+  const useGoToHome = () => useNavigate()('/')
+  const mutation = useMutation({ mutationFn: signIn, mutationKey: ['user', 'signIn'], onSuccess: useGoToHome })
+  const query = useIsSignedIn()
   return (
     <PHPage>
-      <Form ref={formRef} onSubmit={onSubmit}>
+      {query.data && <Navigate to="/" />}
+      <Form
+        ref={formRef}
+        onSubmit={(event) => {
+          event.preventDefault()
+          event.stopPropagation()
+          if (formRef.current) mutation.mutate(new FormData(formRef.current))
+        }}
+      >
         <Form.Group>
-          <Form.Label>이메일</Form.Label>
+          <Form.Label>ID / Email</Form.Label>
           <Form.Control required name="username" disabled={mutation.isPending} />
         </Form.Group>
         <Form.Group>
@@ -33,3 +37,7 @@ export const SignInPage = () => {
     </PHPage>
   )
 }
+
+export const SignInPage = wrap
+  .Suspense({ fallback: <PHLoadingPage description="계정 상태를 확인하는 중이에요..." /> })
+  .on(SignIn)
