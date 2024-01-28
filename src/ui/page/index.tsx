@@ -12,9 +12,12 @@ import { HomeMain } from '@local/page/home'
 // import { PlayCoMain } from '@local/page/playco'
 import { NotFoundMain } from './internal/notfound'
 import { SignInPage } from './internal/signin'
+import { SignOutPage } from './internal/signout'
 import { SignUpPage } from './internal/signup'
 
-const queryClient = new QueryClient({ defaultOptions: { queries: { retry: 3 } } })
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { retry: 3, refetchOnMount: 'always', gcTime: 1, staleTime: 10000 } },
+})
 
 const ReactQueryDevtools = React.lazy(() =>
   !import.meta.env.PROD
@@ -43,6 +46,15 @@ const ROUTE_DEFINITIONS: RouteDefinitionList = new RouteDefinitionList([
     '/account/signup',
     <SignUpPage />,
     mdiAccountPlusOutline,
+    false
+  ),
+  new RouteDefinition(
+    '/account/signout',
+    '로그아웃',
+    '로그아웃',
+    '/account/signout',
+    <SignOutPage />,
+    mdiAccountCircle,
     false
   ),
 ])
