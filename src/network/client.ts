@@ -3,6 +3,7 @@ import * as R from 'remeda'
 
 import { SignUpRequest, User } from '@local/network/schema/user.d'
 import { isFilledString, isJSONParsable } from '@local/util/string_util'
+import { useSuspenseQuery } from '@tanstack/react-query'
 
 export type FetchMethod = 'HEAD' | 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
 
@@ -171,6 +172,8 @@ export const signOut = async () => {
 }
 
 export const isSignedIn = async () => isFilledString(await retrieveTokenStr())
+
+export const useIsSignedIn = () => useSuspenseQuery({ queryKey: ['user', 'isSignedIn'], queryFn: isSignedIn })
 
 export const fetchMU = async (option: MURequestOption) => {
   const headers = new Headers(option.headers)
