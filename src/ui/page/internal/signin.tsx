@@ -5,6 +5,7 @@ import { Form } from 'react-bootstrap'
 import { Navigate, useNavigate } from 'react-router-dom'
 
 import { signIn, useIsSignedIn } from '@local/network/client'
+import { PHButton } from '@local/ui/component/element/phButton'
 import { PHPage } from '@local/ui/component/layout/phPage'
 import { PHLoadingPage } from '@local/ui/component/page/phLoadingPage'
 
@@ -16,6 +17,7 @@ const SignIn = () => {
     navigate('/')
     queryClient.resetQueries({ queryKey: ['user'] })
   }
+  const goToSignUp = () => navigate('/account/signup')
   const mutation = useMutation({ mutationFn: signIn, mutationKey: ['user', 'signIn'], onSuccess: goToHome })
   const query = useIsSignedIn()
   return (
@@ -40,6 +42,9 @@ const SignIn = () => {
             <Form.Control required name="password" disabled={mutation.isPending} type="password" />
           </Form.Group>
           <Form.Control type="submit" value="로그인" disabled={mutation.isPending} />
+          <PHButton variant="secondary" onClick={goToSignUp} style={{ width: '100%', margin: '0', fontWeight: 'bold' }}>
+            회원가입하기
+          </PHButton>
         </Form>
       </section>
     </PHPage>
