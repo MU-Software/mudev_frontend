@@ -25,11 +25,11 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api/, ''),
         secure: true,
       },
-      // As refresh token cookie is restrict path to /user/, we need to proxy /user/ to api.mudev.cc
-      '/user/': {
-        target: 'https://api.mudev.cc',
+      // As refresh token cookie is restrict path to /authn/, we need to proxy /authn/ to api.mudev.cc
+      '/authn/': {
+        target: 'https://api.mudev.cc/authn',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/user/, ''),
+        rewrite: (path) => path.replace(/^\/authn/, ''),
         secure: true,
       },
     },

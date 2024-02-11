@@ -34,7 +34,7 @@ export class MURequestError extends Error {
 export type MUResponse = { status: number; body: string; response: Response }
 
 export const MURequest: (option: MURequestOption) => Promise<MUResponse> = async (option) => {
-  const hostURL = option.route.startsWith('/user')
+  const hostURL = option.route.startsWith('/authn')
     ? import.meta.env.VITE_API_AUTH_SERVER
     : import.meta.env.VITE_API_SERVER
 
@@ -101,11 +101,11 @@ const parseToken: (tokenStr?: string | null) => Promise<Token | undefined> = asy
   }
 }
 
-const retrieveCSRFToken: () => Promise<MUResponse> = () => MURequest({ route: '/user/csrf/', method: 'HEAD' })
+const retrieveCSRFToken: () => Promise<MUResponse> = () => MURequest({ route: '/authn/csrf/', method: 'HEAD' })
 const retrieveAccessTokenStr: () => Promise<string | undefined> = async () => {
   try {
     const response = await MURequest({
-      route: '/user/refresh/',
+      route: '/authn/refresh/',
       method: 'GET',
       checkJSONParsable: true,
       checkStatus: true,
@@ -117,7 +117,7 @@ const retrieveAccessTokenStr: () => Promise<string | undefined> = async () => {
 }
 const checkAccessToken: (access_token: string) => Promise<MUResponse> = (access_token) =>
   MURequest({
-    route: '/user/verify/',
+    route: '/authn/verify/',
     method: 'PUT',
     headers: { Authorization: `Bearer ${access_token}` },
     checkStatus: true,
@@ -150,7 +150,7 @@ export const useIsSignedIn = () => useSuspenseQuery({ queryKey: ['user', 'isSign
 export const signIn = async (formData: FormData) => {
   await retrieveCSRFToken()
   const response = await MURequest({
-    route: '/user/signin/',
+    route: '/authn/signin/',
     method: 'POST',
     body: formData,
     checkStatus: true,
@@ -163,7 +163,7 @@ export const signIn = async (formData: FormData) => {
 
 export const signUp = async (newUserInfo: SignUpRequest) => {
   const response = await MURequest({
-    route: '/user/signup/',
+    route: '/authn/signup/',
     method: 'POST',
     body: JSON.stringify(newUserInfo),
     checkStatus: true,
@@ -185,7 +185,7 @@ export const fetchMU = async (option: MURequestOption) => {
 
 export const signOut = async () => {
   try {
-    await fetchMU({ route: '/user/signout/', method: 'DELETE', requireAuth: true, checkStatus: true })
+    await fetchMU({ route: '/authn/signout/', method: 'DELETE', requireAuth: true, checkStatus: true })
   } catch (e) {
     /* Do nothing */
   }
