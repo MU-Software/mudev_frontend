@@ -19,5 +19,11 @@ export const SignOutPage = wrap.Suspense({ fallback: <PHLoadingPage description=
     },
   })
 
-  return <PHPage>{query.data && <Navigate to="/" />}</PHPage>
+  return (
+    <PHPage>
+      <section>
+        <aside>{query.data && <Navigate to="/" />}</aside>
+      </section>
+    </PHPage>
+  )
 })
