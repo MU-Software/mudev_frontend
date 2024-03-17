@@ -1,5 +1,7 @@
+import Icon from '@mdi/react'
 import React from 'react'
-import { Button } from 'react-bootstrap'
+import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap'
+import { OverlayChildren } from 'react-bootstrap/esm/Overlay'
 
 import './phButton.css'
 
@@ -66,60 +68,23 @@ const PHButton: React.FC<PHButtonProps> = ({
   )
 }
 
-// export const PHSpinnerButton = (inProps) => {
-//   let props = Object.assign({}, inProps, {});
-
-//   // When props.showSpinner is true, we disable button and show spinner
-//   let shouldSpinnerShow = props.showSpinner || false;
-//   delete (props.showSpinner);
-
-//   let spinnerElement = props.spinner || <Spinner animation='border' role='status'>
-//     {/* visually-hidden is Bootstrap's. */}
-//     <span className='visually-hidden'>Loading...</span>
-//   </Spinner>;
-//   delete (props.spinner);
-
-//   let btnChildElement = props.children || '\u00A0';
-//   if (React.Children.count(btnChildElement) > 1)
-//     throw Error('PHSpinnerButton accepts only one element for the children.');
-//   delete (props.children);
-
-//   // If btnChild is not an DOMElement or reactElement, then wrap it with plain div.
-//   if (!(typeof (btnChildElement) == 'object' && (btnChildElement.$$typeof === REACT_ELEMENT_TYPE)))
-//     btnChildElement = <div>{btnChildElement}</div>;
-
-//   if (shouldSpinnerShow) {
-//     props.disabled = true;
-//     if (props.setGrayWhenDisabled) {
-//       if ((props.variant || '').startsWith('outline-'))
-//         props.variant = 'outline-secondary';
-//       else
-//         props.variant = 'secondary';
-//     }
-//   }
-
-//   btnChildElement = React.cloneElement(btnChildElement, {
-//     style: {
-//       width: 'fit-content',
-//       height: 'fit-content',
-//       // visibility: shouldSpinnerShow ? 'hidden' : 'visible',
-//       opacity: shouldSpinnerShow ? '50%' : '100%',
-//     }
-//   });
-//   spinnerElement = React.cloneElement(spinnerElement, {
-//     style: {
-//       visibility: shouldSpinnerShow ? 'visible' : 'hidden',
-//     }
-//   });
-
-//   return <PHButton {...props}>
-//     <div className='PHSpinnerButtonChildrenContainer'>
-//       {btnChildElement}
-//       <div className='PHSpinnerButtonSpinnerContainer'>
-//         {spinnerElement}
-//       </div>
-//     </div>
-//   </PHButton>
-// }
+export const PHIconOverlayButton: React.FC<PHButtonProps & { icon: string; label: string; iconSize?: number }> = (
+  props
+) => {
+  const onOverlay: OverlayChildren = (p) => (
+    <Tooltip {...p}>
+      <div style={{ width: 'max-content' }}>{props.label}</div>
+    </Tooltip>
+  )
+  return (
+    <OverlayTrigger placement="bottom" overlay={onOverlay}>
+      <div style={{ display: 'inline-block' }}>
+        <PHButton {...props} style={{ margin: 0, padding: 0 }}>
+          <Icon path={props.icon} size={props.iconSize ?? 0.6} />
+        </PHButton>
+      </div>
+    </OverlayTrigger>
+  )
+}
 
 export { PHButton }
