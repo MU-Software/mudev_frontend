@@ -47,6 +47,7 @@ export type PasswordChangeRequest = {
 }
 
 export type SignInHistory = {
+  uuid: string
   ip: string
   user_agent: string
   created_at: string
