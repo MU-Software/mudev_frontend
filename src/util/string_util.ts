@@ -85,3 +85,27 @@ export const getIDFailureReason = (reason: string) => {
       return '사용할 수 있는 아이디가 아니에요,\n'
   }
 }
+
+export const formatDateTimeToKorean = (date: Date) => {
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+  const hour = date.getHours()
+  const minute = date.getMinutes()
+  const second = date.getSeconds()
+  return `${year}년 ${month}월 ${day}일 ${hour}시 ${minute}분 ${second}초`
+}
+
+export const formatDateToKorean = (date: Date) => {
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+  return `${year}년 ${month}월 ${day}일`
+}
+
+export const formatTimeToKorean = (date: Date) => {
+  const hour = date.getHours()
+  const minute = date.getMinutes()
+  const second = date.getSeconds()
+  return `${hour}시 ${minute}분 ${second}초`
+}
