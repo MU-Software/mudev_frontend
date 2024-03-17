@@ -204,6 +204,8 @@ body, html, main {
   Pretendard, Open Sans, arial, Apple SD Gothic Neo, Noto Sans CJK KR,
   본고딕, KoPubDotum, 나눔바른고딕, 나눔고딕, NanumGothic,
   맑은고딕, Malgun Gothic, sans-serif !important;
+  word-break: keep-all;
+  overflow-wrap: break-all;
 
   background-color: var(--background-color) !important;
   background: var(--background) !important;
@@ -290,4 +292,16 @@ code {
   color: var(--color-inv) !important;
   margin: 0.25rem !important;
   padding: 0.25rem 0.75rem !important;
+}
+
+table {
+  table-layout: fixed;
+
+  /* Resetting mvp.css */
+  display: table;
+  white-space: unset;
+}
+
+table thead th:first-child, table tr td:first-child {
+  text-align: unset;
 }
