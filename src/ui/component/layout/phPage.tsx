@@ -3,21 +3,16 @@ import React from 'react'
 
 import { DUMMY_SIDEBAR_HIDE_MEDIA_QUERY, SIDEBAR_HIDE_MEDIA_QUERY } from '@local/const/ui'
 
-const phPageContainerStyle = css({
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  height: '100%',
-  width: '100%',
-})
-
 const phPageStyle = css({
-  minHeight: 'calc(100% - var(--topbar-height))',
-  height: 'calc(100% - var(--topbar-height))',
-  maxHeight: 'calc(100% - var(--topbar-height))',
-  minWidth: 'calc(100% - (var(--sidebar-width) * 2))',
-  width: 'calc(100% - (var(--sidebar-width) * 2))',
-  maxWidth: 'calc(100% - (var(--sidebar-width) * 2))',
+  display: 'flex',
+  justifyContent: 'flex-start',
+  alignItems: 'flex-start',
+  flexDirection: 'column',
+
+  minHeight: '100%',
+  height: '100%',
+  minWidth: '100%',
+  width: '100%',
 
   transition: [
     'min-width var(--transition-duration)',
@@ -25,25 +20,22 @@ const phPageStyle = css({
     'max-width var(--transition-duration)',
     'left var(--transition-duration)',
   ],
-  marginLeft: 'var(--sidebar-width)',
-  marginTop: 'var(--topbar-height)',
-  [DUMMY_SIDEBAR_HIDE_MEDIA_QUERY]: {
-    minWidth: 'calc(100% - var(--sidebar-width))',
-    width: 'calc(100% - var(--sidebar-width))',
-    maxWidth: 'calc(100% - var(--sidebar-width))',
-  },
-  [SIDEBAR_HIDE_MEDIA_QUERY]: {
-    minWidth: '100%',
-    width: '100%',
-    maxWidth: '100%',
-    marginLeft: 0,
-  },
+
+  paddingTop: 'var(--topbar-height)',
+  paddingRight: 'var(--sidebar-width)',
+  paddingLeft: 'var(--sidebar-width)',
+  [DUMMY_SIDEBAR_HIDE_MEDIA_QUERY]: { paddingRight: '0' },
+  [SIDEBAR_HIDE_MEDIA_QUERY]: { paddingLeft: '0' },
 })
 
-type PHPageProps = React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>
-
-export const PHPage: React.FC<PHPageProps> = (props) => (
-  <div className={phPageContainerStyle}>
-    <div className={phPageStyle}>{props.children}</div>
+export const PHPage: React.FC<React.PropsWithChildren> = (props) => (
+  <div className={phPageStyle} {...props}>
+    {props.children}
   </div>
+)
+
+export const PHPageWithSection: React.FC<React.PropsWithChildren> = (props) => (
+  <PHPage>
+    <section style={{ width: '100%', minWidth: '100%' }}>{props.children}</section>
+  </PHPage>
 )
