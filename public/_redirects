@@ -1,3 +1,0 @@
-/account/* /:splat 200
-/blog      /:splat 200
-/*         /index.html 200
