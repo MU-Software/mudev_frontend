@@ -13,14 +13,9 @@
 }
 
 .homeIndexSection {
-  border-top: none;
   justify-content: space-between;
   font-family: 'neodgm';
   overflow: hidden;
-}
-
-.dummyScrollIndicator {
-  display: block;
 }
 
 .targetLogoContainer {
@@ -82,11 +77,13 @@
   filter: var(--mu-text-logo);
 }
 
-@media only screen and (max-height: 750px) {
-  .dummyScrollIndicator {
+@media only screen and (max-height: 770px) {
+  .targetTextLogoContainer {
     display: none;
   }
+}
 
+@media only screen and (max-height: 750px) {
   .homeIndexSection {
     font-size: 1.75vh;
   }
@@ -106,19 +103,11 @@
     /* margin-top: 10vh; */
     width: 66.666%;
   }
-
-  .dummyScrollIndicator {
-    display: none;
-  }
 }
 
 @media only screen and (max-height: 512px) {
   .homeIndexSection {
     justify-content: center;
     padding-bottom: 56px;
-  }
-
-  .dummyScrollIndicator {
-    display: none;
   }
 }

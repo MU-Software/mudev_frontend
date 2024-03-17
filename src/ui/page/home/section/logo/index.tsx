@@ -10,7 +10,6 @@ import './index.css'
 
 export const HomeLogoSection: React.FC = () => (
   <PHPageSection className="homeIndexSection">
-    <PHScrollIndicator className="dummyScrollIndicator" style={{ visibility: 'hidden' }} />
     <div className="targetLogoContainer">
       <picture className="targetImgLogo">
         <source srcSet={MUFullLogoWebP} type="image/webp" />
